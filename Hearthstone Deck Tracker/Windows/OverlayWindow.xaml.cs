@@ -634,8 +634,8 @@ namespace Hearthstone_Deck_Tracker
         {
             if (refresh)
             {
-                ListViewPlayer.Items.Refresh();
-                ListViewOpponent.Items.Refresh();
+               // ListViewPlayer.Items.Refresh();
+                //ListViewOpponent.Items.Refresh();
                 Topmost = false;
                 Topmost = true;
                 Logger.WriteLine("Refreshed overlay topmost status", "UpdateOverlay");

@@ -1271,6 +1271,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Images\frame_golden.png" />
+    <Resource Include="Images\frame_golden_2.png" />
     <Content Include="Images\gold_progress_frame_center.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

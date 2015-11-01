@@ -10,33 +10,38 @@
         <Storyboard x:Key="StoryboardSpawnNoFadeIn" Duration="0:0:2.0">
             <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" To="{Binding Path=MaxHeight, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             <DoubleAnimation Storyboard.TargetName="ViewboxBackground" Storyboard.TargetProperty="Opacity" To="1"/>
-            <DoubleAnimation Storyboard.TargetName="StackPanelText" Storyboard.TargetProperty="Opacity" To="1"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextCost" Storyboard.TargetProperty="Opacity" To="1"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextName" Storyboard.TargetProperty="Opacity" To="1"/>
             <DoubleAnimation Storyboard.TargetName="GoldenFrame" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
             <DoubleAnimation Storyboard.TargetName="GoldenFrame" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.8" BeginTime="0:0:1.2"/>
         </Storyboard>
         <Storyboard x:Key="StoryboardSpawn" Duration="0:0:2.8">
-            <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" From="0" To="{Binding Path=MaxHeight, ElementName=UserControlAnimatedCard}" Duration="0:0:0.4"/>
+            <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" From="0" To="{Binding Path=MaxHeight, RelativeSource={RelativeSource AncestorType=UserControl}}" Duration="0:0:0.4"/>
             <DoubleAnimation Storyboard.TargetName="ViewboxBackground" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.7" BeginTime="0:0:0.3"/>
-            <DoubleAnimation Storyboard.TargetName="StackPanelText" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextCost" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextName" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5"/>
             <DoubleAnimation Storyboard.TargetName="GoldenFrame" Storyboard.TargetProperty="Opacity" From="0" To="1"/>
             <DoubleAnimation Storyboard.TargetName="GoldenFrame" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.8" BeginTime="0:0:2.0"/>
         </Storyboard>
         <Storyboard x:Key="StoryboardSpawnNoHighlight" Duration="0:0:1">
-            <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" From="0" To="{Binding Path=MaxHeight, ElementName=UserControlAnimatedCard}" Duration="0:0:0.4"/>
+            <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" From="0" To="{Binding Path=MaxHeight, RelativeSource={RelativeSource AncestorType=UserControl}}" Duration="0:0:0.4"/>
             <DoubleAnimation Storyboard.TargetName="ViewboxBackground" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.7" BeginTime="0:0:0.3"/>
-            <DoubleAnimation Storyboard.TargetName="StackPanelText" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextCost" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextName" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5"/>
         </Storyboard>
         <Storyboard x:Key="StoryboardDespawn" Duration="0:0:2.0">
             <DoubleAnimation Storyboard.TargetName="GoldenFrame" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
             <DoubleAnimation Storyboard.TargetName="GoldenFrame" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.8" BeginTime="0:0:1.2"/>
-            <DoubleAnimation Storyboard.TargetName="StackPanelText" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5" BeginTime="0:0:1.1"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextCost" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5" BeginTime="0:0:1.1"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextName" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5" BeginTime="0:0:1.1"/>
             <DoubleAnimation Storyboard.TargetName="ViewboxBackground" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.7" BeginTime="0:0:1.3"/>
-            <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" From="{Binding Path=MaxHeight, ElementName=UserControlAnimatedCard}" To="0" Duration="0:0:0.4" BeginTime="0:0:1.6"/>
+            <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" From="{Binding Path=MaxHeight, RelativeSource={RelativeSource AncestorType=UserControl}}" To="0" Duration="0:0:0.4" BeginTime="0:0:1.6"/>
         </Storyboard>
         <Storyboard x:Key="StoryboardDespawnNoHighlight" Duration="0:0:0.9">
-            <DoubleAnimation Storyboard.TargetName="StackPanelText" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextCost" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetName="ViewBoxTextName" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
             <DoubleAnimation Storyboard.TargetName="ViewboxBackground" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.7" BeginTime="0:0:0.2"/>
-            <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" From="{Binding Path=MaxHeight, ElementName=UserControlAnimatedCard}" To="0" Duration="0:0:0.4" BeginTime="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetName="UserControlAnimatedCard" Storyboard.TargetProperty="Height" From="{Binding Path=MaxHeight, RelativeSource={RelativeSource AncestorType=UserControl}}" To="0" Duration="0:0:0.4" BeginTime="0:0:0.5"/>
         </Storyboard>
         <Storyboard x:Key="StoryboardUpdate" Duration="0:0:2.0">
             <DoubleAnimation Storyboard.TargetName="GoldenFrame" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
@@ -44,27 +49,29 @@
         </Storyboard>
     </UserControl.Resources>
     <Grid Width="218">
-        <Viewbox Name="ViewboxBackground" MaxHeight="35" Stretch="Fill" Opacity="0">
+        <Viewbox Name="ViewboxBackground" MaxHeight="35" Stretch="Fill" StretchDirection="DownOnly" Opacity="0">
             <Grid>
-                <Rectangle Fill="{Binding Background}" Height="35" Width="215"/>
-                <Image Name="GoldenFrame" Source="../Images/frame_golden.png" Height="35" Width="215" Opacity="0"/>
+                <Rectangle Fill="{Binding Background}" Height="35" Width="215" RenderOptions.BitmapScalingMode="Fant" RenderOptions.EdgeMode="Aliased"/>
+                <Image Name="GoldenFrame" Source="../Images/frame_golden_2.png" Height="35" Width="215" Opacity="0" RenderOptions.BitmapScalingMode="Fant"/>
             </Grid>
         </Viewbox>
-        <StackPanel Name="StackPanelText" Orientation="Horizontal" Opacity="0">
-            <Viewbox MaxHeight="25" Stretch="Fill">
-                <Grid Width="35">
-                    <hearthstoneDeckTracker:OutlinedTextBlock x:Name="TextBlockCost" Width="32" VerticalAlignment="Center" HorizontalAlignment="Center"
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Viewbox Name="ViewBoxTextCost" MaxHeight="25" Stretch="Fill" StretchDirection="DownOnly" Opacity="0" Grid.Column="0">
+                <hearthstoneDeckTracker:OutlinedTextBlock x:Name="TextBlockCost" Width="32" VerticalAlignment="Center" HorizontalAlignment="Center"
                                  Text="{Binding Cost}" Fill="{Binding ColorPlayer}"
                                  FontFamily="/HearthstoneDeckTracker;component/Resources/#Belwe Bd BT"
                                  TextAlignment="Center" FontSize="20" />
-                </Grid>
             </Viewbox>
-            <Viewbox MaxHeight="16" Stretch="Fill">
+            <Viewbox Name="ViewBoxTextName" MaxHeight="16" Stretch="Fill" StretchDirection="DownOnly" Opacity="0" Grid.Column="1" HorizontalAlignment="Left" >
                 <hearthstoneDeckTracker:OutlinedTextBlock x:Name="TextBlockName" VerticalAlignment="Center" Text="{Binding LocalizedName}"
                                  Fill="{Binding ColorPlayer}" FontFamily="/HearthstoneDeckTracker;component/Resources/#Belwe Bd BT"
                                  TextAlignment="Left" FontSize="13" />
-                </Viewbox>
-        </StackPanel>
+            </Viewbox>
+        </Grid>
     </Grid>
     
 </UserControl>

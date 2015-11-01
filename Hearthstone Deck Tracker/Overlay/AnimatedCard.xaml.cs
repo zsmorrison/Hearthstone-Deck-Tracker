@@ -32,7 +32,8 @@ namespace Hearthstone_Deck_Tracker.Overlay
 			else
 			{
 				ViewboxBackground.Opacity = 1;
-				StackPanelText.Opacity = 1;
+				ViewBoxTextCost.Opacity = 1;
+				ViewBoxTextName.Opacity = 1;
 				Height = MaxHeight;
 			}
 			Card.Update();
@@ -64,6 +65,29 @@ namespace Hearthstone_Deck_Tracker.Overlay
 			sb.Begin();
 			await Task.Delay(sb.Duration.TimeSpan);
 			_runningStoryBoards.Remove(key);
+		}
+
+		private bool _resizeRunning;
+		private bool _cancelResize;
+		public async void UpdateMaxHeight(double maxHeight)
+		{
+			if(_resizeRunning)
+			{
+				_cancelResize = true;
+				while(_resizeRunning)
+					await Task.Delay(40);
+				_cancelResize = false;
+			}
+			_resizeRunning = true;
+			var diff = (maxHeight - MaxHeight) / 10;
+			for(int i = 0; i < 10; i++)
+			{
+				if(_cancelResize)
+					break;
+				MaxHeight += diff;
+				await Task.Delay(40);
+			}
+			_resizeRunning = false;
 		}
 	}
 }
