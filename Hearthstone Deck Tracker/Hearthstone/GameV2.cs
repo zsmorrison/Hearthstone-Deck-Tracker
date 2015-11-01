@@ -100,7 +100,7 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 			}
 		}
 
-		public void Reset(bool resetStats = true)
+		public void Reset(bool resetStats = true, bool updateCards = true)
 		{
 			Logger.WriteLine("-------- Reset ---------", "Game");
 
@@ -123,10 +123,10 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 			}
 			_hsLogLines = new List<string>();
 
-			if(Core.Game != null && Core.Overlay != null)
+			if(Core.Game != null && Core.Overlay != null && updateCards)
 			{
-				Helper.UpdatePlayerCards();
-				Helper.UpdateOpponentCards();
+				Helper.UpdatePlayerCards(true);
+				Helper.UpdateOpponentCards(true);
 			}
 		}
 

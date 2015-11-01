@@ -246,6 +246,12 @@
     <Compile Include="Exporting\ExportingInfo.cs" />
     <Compile Include="Exporting\HueAndBrightness.cs" />
     <Compile Include="Hearthstone\GameTime.cs" />
+    <Compile Include="Overlay\AnimatedCard.xaml.cs">
+      <DependentUpon>AnimatedCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Overlay\AnimatedCardList.xaml.cs">
+      <DependentUpon>AnimatedCardList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Stats\CompiledStats\ArenaRun.cs" />
     <Compile Include="Stats\CompiledStats\ChartStats.cs" />
     <Compile Include="Stats\CompiledStats\ClassStats.cs" />
@@ -733,6 +739,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HearthStats\Controls\DuplicateMatchesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Overlay\AnimatedCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Overlay\AnimatedCardList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1256,6 +1270,7 @@
     <Content Include="Images\board_damage.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\frame_golden.png" />
     <Content Include="Images\gold_progress_frame_center.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -26,7 +26,7 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
         List<Card> PossibleConstructedCards { get; set; }
         Dictionary<int, Entity> Entities { get; set; }
         bool SavedReplay { get; set; }
-        void Reset(bool resetStats = true);
+        void Reset(bool resetStats = true, bool updateCards = true);
         void SetPremadeDeck(Deck deck);
         void AddPlayToCurrentGame(PlayType play, int turn, string cardId);
         void ResetArenaCards();

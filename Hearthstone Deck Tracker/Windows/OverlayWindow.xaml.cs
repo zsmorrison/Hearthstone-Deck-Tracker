@@ -17,6 +17,7 @@ using Hearthstone_Deck_Tracker.Annotations;
 using Hearthstone_Deck_Tracker.Controls;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Hearthstone;
+using Hearthstone_Deck_Tracker.Overlay;
 using Hearthstone_Deck_Tracker.Utility;
 using Hearthstone_Deck_Tracker.Utility.BoardDamage;
 using Card = Hearthstone_Deck_Tracker.Hearthstone.Card;
@@ -531,47 +532,31 @@ namespace Hearthstone_Deck_Tracker
 
         private void ReSizePosLists()
         {
-            //player TODO: take labels into account
             var totalPlayerLabelsHeight = CanvasPlayerChance.ActualHeight + CanvasPlayerCount.ActualHeight + LblPlayerFatigue.ActualHeight
                                           + LblDeckTitle.ActualHeight + LblWins.ActualHeight;
-            if (((Height * Config.Instance.PlayerDeckHeight / (Config.Instance.OverlayPlayerScaling / 100) / 100)
-                - (ListViewPlayer.Items.Count * 35 * Scaling + totalPlayerLabelsHeight)) < 1 || Scaling < 1)
-            {
-                var previousScaling = Scaling;
-                Scaling = (Height * Config.Instance.PlayerDeckHeight / (Config.Instance.OverlayPlayerScaling / 100) / 100)
-                          / (ListViewPlayer.Items.Count * 35 + totalPlayerLabelsHeight);
-                if (Scaling > 1)
-                    Scaling = 1;
-
-                if (previousScaling != Scaling)
-                    ListViewPlayer.Items.Refresh();
-            }
+	        if(!double.IsNaN(Height))
+	        {
+		        ListViewPlayer.MaxHeight = Height * Config.Instance.PlayerDeckHeight / (Config.Instance.OverlayPlayerScaling / 100) / 100 - totalPlayerLabelsHeight;
+				ListViewPlayer.UpdateSize();
+	        }
 
             Canvas.SetTop(StackPanelPlayer, Height * Config.Instance.PlayerDeckTop / 100);
-            Canvas.SetLeft(StackPanelPlayer,
-                           Width * Config.Instance.PlayerDeckLeft / 100
-                           - StackPanelPlayer.ActualWidth * Config.Instance.OverlayPlayerScaling / 100);
+            Canvas.SetLeft(StackPanelPlayer,  Width * Config.Instance.PlayerDeckLeft / 100 - StackPanelPlayer.ActualWidth * Config.Instance.OverlayPlayerScaling / 100);
 
-            //opponent
+
+
             var totalOpponentLabelsHeight = CanvasOpponentChance.ActualHeight + CanvasOpponentCount.ActualHeight + LblOpponentFatigue.ActualHeight
                                           + LblWinRateAgainst.ActualHeight;
-            if (((Height * Config.Instance.OpponentDeckHeight / (Config.Instance.OverlayOpponentScaling / 100) / 100)
-                - (ListViewOpponent.Items.Count * 35 * OpponentScaling + totalOpponentLabelsHeight)) < 1 || OpponentScaling < 1)
-            {
-                var previousScaling = OpponentScaling;
-                OpponentScaling = (Height * Config.Instance.OpponentDeckHeight / (Config.Instance.OverlayOpponentScaling / 100) / 100)
-                                  / (ListViewOpponent.Items.Count * 35 + totalOpponentLabelsHeight);
-                if (OpponentScaling > 1)
-                    OpponentScaling = 1;
+	        if(!double.IsNaN(Height))
+	        {
+		        ListViewOpponent.MaxHeight = Height * Config.Instance.OpponentDeckHeight / (Config.Instance.OverlayOpponentScaling / 100) / 100 - totalOpponentLabelsHeight;
+				ListViewOpponent.UpdateSize();
+	        }
 
-                if (previousScaling != OpponentScaling)
-                    ListViewOpponent.Items.Refresh();
-            }
+			//secrets
+			//StackPanelSecrets.RenderTransform = new ScaleTransform(Config.Instance.SecretsPanelScaling, Config.Instance.SecretsPanelScaling);
 
-            //secrets
-            //StackPanelSecrets.RenderTransform = new ScaleTransform(Config.Instance.SecretsPanelScaling, Config.Instance.SecretsPanelScaling);
-
-            Canvas.SetTop(StackPanelOpponent, Height * Config.Instance.OpponentDeckTop / 100);
+			Canvas.SetTop(StackPanelOpponent, Height * Config.Instance.OpponentDeckTop / 100);
             Canvas.SetLeft(StackPanelOpponent, Width * Config.Instance.OpponentDeckLeft / 100);
 
             //Secrets
@@ -881,7 +866,7 @@ namespace Hearthstone_Deck_Tracker
                 if (cardIndex < 0 || cardIndex >= ListViewPlayer.Items.Count)
                     return;
 
-                ToolTipCard.SetValue(DataContextProperty, ListViewPlayer.Items[cardIndex]);
+                ToolTipCard.SetValue(DataContextProperty, ((AnimatedCard)ListViewPlayer.Items[cardIndex]).Card);
 
                 //offset is affected by scaling
                 var topOffset = Canvas.GetTop(StackPanelPlayer) + GetListViewOffset(StackPanelPlayer)
@@ -905,7 +890,7 @@ namespace Hearthstone_Deck_Tracker
                 if (cardIndex < 0 || cardIndex >= ListViewOpponent.Items.Count)
                     return;
 
-                ToolTipCard.SetValue(DataContextProperty, ListViewOpponent.Items[cardIndex]);
+                ToolTipCard.SetValue(DataContextProperty, ((AnimatedCard)ListViewOpponent.Items[cardIndex]).Card);
 
                 //offset is affected by scaling
                 var topOffset = Canvas.GetTop(StackPanelOpponent) + GetListViewOffset(StackPanelOpponent)
@@ -1362,23 +1347,25 @@ namespace Hearthstone_Deck_Tracker
 		}
 
 	    private DateTime _lastPlayerUpdateReqest = DateTime.MinValue;
-		public async void UpdatePlayerCards()
+		public async void UpdatePlayerCards(bool reset)
 		{
 			_lastPlayerUpdateReqest = DateTime.Now;
 			await Task.Delay(50);
 			if((DateTime.Now - _lastPlayerUpdateReqest).Milliseconds < 50)
 				return;
-			OnPropertyChanged("PlayerDeck");
+			//OnPropertyChanged("PlayerDeck");
+			ListViewPlayer.Update(_game.Player.DisplayCards, true, reset);
 		}
 
 		private DateTime _lastOpponentUpdateReqest = DateTime.MinValue;
-		public async void UpdateOpponentCards()
+		public async void UpdateOpponentCards(bool reset)
 		{
 			_lastOpponentUpdateReqest = DateTime.Now;
 			await Task.Delay(50);
 			if((DateTime.Now - _lastOpponentUpdateReqest).Milliseconds < 50)
 				return;
-			OnPropertyChanged("OpponentDeck");
+			//OnPropertyChanged("OpponentDeck");
+			ListViewOpponent.Update(_game.Opponent.DisplayRevealedCards, false, reset);
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

@@ -43,7 +43,7 @@ namespace Hearthstone_Deck_Tracker.Windows
 
 		public async void UseDeck(Deck selected)
 		{
-			Core.Game.Reset();
+			Core.Game.Reset(updateCards: false);
 
 			if(selected != null)
 			{
@@ -54,7 +54,7 @@ namespace Hearthstone_Deck_Tracker.Windows
 			//needs to be true for automatic deck detection to work
 			await LogReaderManager.Restart();
 			Core.Overlay.Update(false);
-			Core.Overlay.UpdatePlayerCards();
+			Core.Overlay.UpdatePlayerCards(true);
 			Core.Windows.PlayerWindow.UpdatePlayerCards();
 		}
 

@@ -89,6 +89,12 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 			}
 		}
 
+		public void Update()
+		{
+			OnPropertyChanged("ColorPlayer");
+			OnPropertyChanged("Background");
+		}
+
 		[XmlIgnore]
 		public bool Jousted { get; set; }
 
@@ -333,14 +339,19 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 			get { return PlayerClass ?? "Neutral"; }
 		}
 
+		public void UpdateTextColor()
+		{
+			OnPropertyChanged("ColorPlayer");
+		}
+
 		public SolidColorBrush ColorPlayer
 		{
 			get
 			{
 				Color color;
-				if(HighlightDraw && Config.Instance.HighlightLastDrawn)
-					color = Colors.Orange;
-				else if(HighlightInHand && Config.Instance.HighlightCardsInHand)
+				//if(HighlightDraw && Config.Instance.HighlightLastDrawn)
+				//	color = Colors.Orange;
+				if(HighlightInHand && Config.Instance.HighlightCardsInHand)
 					color = Colors.GreenYellow;
 				else if(Count <= 0 || Jousted)
 					color = Colors.Gray;
@@ -510,6 +521,12 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 		public bool EqualsWithCount(Card card)
 		{
 			return card.Id == Id && card.Count == Count;
+		}
+
+		public bool EqualsForList(Card card)
+		{
+			return card.Id == Id && card.Jousted == Jousted && card.IsCreated == IsCreated
+			       && (!Config.Instance.HighlightDiscarded || card.WasDiscarded == WasDiscarded);
 		}
 
 		public override int GetHashCode()

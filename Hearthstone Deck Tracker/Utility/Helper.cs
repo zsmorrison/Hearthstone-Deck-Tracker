@@ -487,15 +487,15 @@ namespace Hearthstone_Deck_Tracker
 			}
 		}
 
-		public static void UpdatePlayerCards()
+		public static void UpdatePlayerCards(bool reset = false)
 		{
-			Core.Overlay.UpdatePlayerCards();
+			Core.Overlay.UpdatePlayerCards(reset);
 			Core.Windows.PlayerWindow.UpdatePlayerCards();
 		}
 
-		public static void UpdateOpponentCards()
+		public static void UpdateOpponentCards(bool reset = false)
 		{
-			Core.Overlay.UpdateOpponentCards();
+			Core.Overlay.UpdateOpponentCards(reset);
 			Core.Windows.OpponentWindow.UpdateOpponentCards();
 		}
 

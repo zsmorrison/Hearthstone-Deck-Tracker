@@ -276,11 +276,11 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 
 		private async void Highlight(string cardId)
 		{
-			_hightlightedCards.Enqueue(cardId);
-			Helper.UpdatePlayerCards();
-			await Task.Delay(3000);
-			_hightlightedCards.Dequeue();
-			Helper.UpdatePlayerCards();
+			//_hightlightedCards.Enqueue(cardId);
+			//Helper.UpdatePlayerCards();
+			//await Task.Delay(3000);
+			//_hightlightedCards.Dequeue();
+			//Helper.UpdatePlayerCards();
 		}
 
 		public void Play(Entity entity, int turn)
