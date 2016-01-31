@@ -13,6 +13,7 @@ using Hearthstone_Deck_Tracker.Enums.Hearthstone;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Hearthstone.Entities;
 using Hearthstone_Deck_Tracker.HearthStats.API;
+using Hearthstone_Deck_Tracker.HsReplay;
 using Hearthstone_Deck_Tracker.LogReader;
 using Hearthstone_Deck_Tracker.Replay;
 using Hearthstone_Deck_Tracker.Stats;
@@ -150,6 +151,8 @@ namespace Hearthstone_Deck_Tracker
 			   && _game.CurrentGameStats.ReplayFile == null && RecordCurrentGameMode)
 				_game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(_game.PowerLog);
 
+			UploadHsReplay();
+
 			SaveAndUpdateStats();
 
 			_game.StoredPowerLogs.Clear();
@@ -186,6 +189,12 @@ namespace Hearthstone_Deck_Tracker
 			if(_game.CurrentGameMode == Spectator)
 				SetGameMode(None);
 			GameEvents.OnInMenu.Execute();
+		}
+
+		private async void UploadHsReplay()
+		{
+			var file = await HsReplayGenerator.Generate(_game.PowerLog);
+			await HsReplayUploader.UploadXml(file);
 		}
 
 		public void HandleConcede()
