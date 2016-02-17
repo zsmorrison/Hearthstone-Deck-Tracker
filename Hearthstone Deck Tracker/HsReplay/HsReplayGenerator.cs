@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Hearthstone_Deck_Tracker.Hearthstone;
+using Hearthstone_Deck_Tracker.Stats;
 using static Hearthstone_Deck_Tracker.HsReplay.HsReplayConstants;
 
 #endregion
@@ -16,17 +18,19 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	public class HsReplayGenerator
 	{
-		private static XmlMetaData[] MetaData
+		private static XmlMetaData[] GetMetaData(GameStats stats, GameMetaData metaData)
 			=>
 				new[]
 				{
-					new XmlMetaData("x-address", Core.Game?.MetaData?.ServerAddress),
-					new XmlMetaData("x-clientid", Core.Game?.MetaData?.ClientId),
-					new XmlMetaData("x-spectateKey", Core.Game?.MetaData?.SpectateKey),
-					new XmlMetaData("x-gameid", Core.Game?.MetaData?.GameId)
+					new XmlMetaData("x-address", metaData?.ServerAddress),
+					new XmlMetaData("x-clientid", metaData?.ClientId),
+					new XmlMetaData("x-spectateKey", metaData?.SpectateKey),
+					new XmlMetaData("x-gameid", metaData?.GameId),
+					new XmlMetaData("x-rank", stats?.Rank),
+					//new XmlMetaData("x-gameid", stats?.LegendRank)
 				};
 
-		public static async Task<string> Generate(List<string> log)
+		public static async Task<string> Generate(List<string> log, GameStats stats, GameMetaData gameMetaData)
 		{
 			Directory.CreateDirectory(HsReplayPath);
 			Directory.CreateDirectory(TmpDirPath);
@@ -42,7 +46,13 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 
 			RunExe();
 
-			AddMetaData(HsReplayOutput, MetaData);
+			if(new FileInfo(HsReplayOutput).Length == 0)
+			{
+				Logger.WriteLine("Not able to convert log file.", "HsReplayGenerator");
+				return null;
+			}
+
+			AddMetaData(HsReplayOutput, GetMetaData(stats, gameMetaData));
 			File.Delete(TmpFilePath);
 			return HsReplayOutput;
 		}

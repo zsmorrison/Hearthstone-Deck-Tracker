@@ -335,6 +335,31 @@
                     <MenuItem Header="_SELECT REPLAY" Click="MenuItemReplaySelectGame_OnClick" />
                     <MenuItem Header="LOAD REPLAY FROM _FILE" Click="MenuItemReplayFromFile_OnClick"/>
                 </MenuItem>
+                <MenuItem Header="_REPLAYS">
+                    <MenuItem.Icon>
+                        <Rectangle Width="16" Height="16" Margin="0,0,-10,0">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_graph_line}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </MenuItem.Icon>
+                    <MenuItem Header="_LATEST REPLAY" Click="MenuItemHsReplayLatest_OnClick"/>
+                    <MenuItem Header="_SELECT REPLAY"/>
+                    <MenuItem Header="LOAD REPLAY FROM _FILE"/>
+                    <Grid Margin="-10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Separator Grid.Column="0"/>
+                        <TextBlock Grid.Column="1" Text="HSREPLAY.NET" IsEnabled="False" Margin="5,0"/>
+                        <Separator Grid.Column="2"/>
+                    </Grid>
+                    <MenuItem Header="LOGIN WITH BATTLE.NET"/>
+                    <CheckBox Name="MenuItemCheckBoxReplayUpload" Content="AUTO UPLOAD" IsChecked="True" Margin="-24,0,0,0" FontSize="14" />
+                    <CheckBox Name="MenuItemCheckBoxReplayPublic" Content="PUBLIC BY DEFAULT" IsChecked="True" Margin="-24,0,0,0" FontSize="14"/>
+                </MenuItem>
                 <MenuItem Header="_HEARTHSTATS" SubmenuOpened="MenuItemHearthStats_OnSubmenuOpened">
                     <MenuItem.Icon>
                         <Rectangle Width="16" Height="16" Margin="0,0,-10,0">

@@ -149,9 +149,10 @@ namespace Hearthstone_Deck_Tracker
 
 			if(Config.Instance.RecordReplays && _game.Entities.Count > 0 && !_game.SavedReplay && _game.CurrentGameStats != null
 			   && _game.CurrentGameStats.ReplayFile == null && RecordCurrentGameMode)
+			{
 				_game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(_game.PowerLog);
-
-			UploadHsReplay();
+				UploadHsReplay(_game.PowerLog, _game.CurrentGameStats, _game.MetaData);
+			}
 
 			SaveAndUpdateStats();
 
@@ -191,10 +192,19 @@ namespace Hearthstone_Deck_Tracker
 			GameEvents.OnInMenu.Execute();
 		}
 
-		private async void UploadHsReplay()
+		private async void UploadHsReplay(List<string> powerLog, GameStats stats, GameMetaData metaData)
 		{
-			var file = await HsReplayGenerator.Generate(_game.PowerLog);
-			await HsReplayUploader.UploadXml(file);
+			var file = await HsReplayGenerator.Generate(powerLog, stats, metaData);
+			if(file == null)
+			{
+				stats.HsReplay = new HsReplayInfo(HsReplayInfo.InvalidId);
+				DeckStatsList.Save();
+				return;
+			}
+			var replayId = await HsReplayUploader.UploadXml(file);
+			stats.HsReplay = new HsReplayInfo(replayId);
+			DeckStatsList.Save();
+			DefaultDeckStats.Save();
 		}
 
 		public void HandleConcede()

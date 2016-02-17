@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Hearthstone_Deck_Tracker.Controls.Error;
+using Hearthstone_Deck_Tracker.Stats;
 
 #endregion
 
@@ -19,14 +20,15 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			//TODO
 		}
 
-		public static async Task UploadXml(string filePath)
+		public static async Task<string> UploadXml(string filePath)
 		{
 			string content;
 			using(var sr = new StreamReader(filePath))
 				content = sr.ReadToEnd();
 			var location = await PostAsync("http://hsreplayarchive.org/api/v1/replay/upload", content);
-			File.Move(filePath, Path.Combine(HsReplayConstants.TmpDirPath, $"{location.Split('/').Last()}.xml"));
-			//TODO: store location properly
+			var id = location.Split('/').Last();
+			File.Move(filePath, Path.Combine(HsReplayConstants.TmpDirPath, $"{id}.xml"));
+			return id;
 		}
 
 		private static async Task<string> PostAsync(string url, string data) => await PostAsync(url, Encoding.UTF8.GetBytes(data));

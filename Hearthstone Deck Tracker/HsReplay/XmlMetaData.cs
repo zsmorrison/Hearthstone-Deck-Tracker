@@ -2,10 +2,10 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	public class XmlMetaData
 	{
-		public XmlMetaData(string key, string value)
+		public XmlMetaData(string key, object value)
 		{
 			Key = key;
-			Value = value;
+			Value = value.ToString();
 		}
 
 		public string Key { get; set; }

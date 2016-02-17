@@ -275,6 +275,7 @@
     <Compile Include="Hearthstone\GameMetaData.cs" />
     <Compile Include="HsReplay\HsReplayConstants.cs" />
     <Compile Include="HsReplay\HsReplayGenerator.cs" />
+    <Compile Include="HsReplay\HsReplayInfo.cs" />
     <Compile Include="HsReplay\HsReplayUploader.cs" />
     <Compile Include="HsReplay\XmlMetaData.cs" />
     <Compile Include="LogReader\Handlers\LoadingScreenHandler.cs" />

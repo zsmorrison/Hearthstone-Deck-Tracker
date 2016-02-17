@@ -21,6 +21,7 @@ using Hearthstone_Deck_Tracker.Controls.DeckPicker;
 using Hearthstone_Deck_Tracker.Controls.Error;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.HearthStats.API;
+using Hearthstone_Deck_Tracker.HsReplay;
 using Hearthstone_Deck_Tracker.LogReader;
 using Hearthstone_Deck_Tracker.Plugins;
 using Hearthstone_Deck_Tracker.Replay;
@@ -936,5 +937,17 @@ namespace Hearthstone_Deck_Tracker.Windows
 		#endregion
 
 		private void HyperlinkUpdateNow_OnClick(object sender, RoutedEventArgs e) => Updater.StartUpdate();
+
+		private void MenuItemHsReplayLatest_OnClick(object sender, RoutedEventArgs e)
+		{
+			//TODO: implement more efficient way of finding the latest match
+			var latest = DeckStatsList.Instance.DeckStats.Concat(DefaultDeckStats.Instance.DeckStats).SelectMany(x => x.Games).OrderByDescending(x => x.StartTime).FirstOrDefault();
+			if(latest?.HsReplay?.Uploaded ?? false)
+				Helper.TryOpenUrl("http://hsreplayarchive.org/joust/replay/" + latest.HsReplay.Id);
+			else if(!(latest?.HsReplay?.Converted ?? false))
+			{ /*TODO -  not yet converted*/ }
+			else
+			{ /*TODO -  converting failed*/ }
+		}
 	}
 }
