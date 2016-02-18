@@ -22,12 +22,13 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			=>
 				new[]
 				{
+					new XmlMetaData("x-hsbuild", metaData?.HearthstoneBuild),
 					new XmlMetaData("x-address", metaData?.ServerAddress),
 					new XmlMetaData("x-clientid", metaData?.ClientId),
 					new XmlMetaData("x-spectateKey", metaData?.SpectateKey),
 					new XmlMetaData("x-gameid", metaData?.GameId),
 					new XmlMetaData("x-rank", stats?.Rank),
-					//new XmlMetaData("x-gameid", stats?.LegendRank)
+					new XmlMetaData("x-legendrank", metaData?.LegendRank)
 				};
 
 		public static async Task<string> Generate(List<string> log, GameStats stats, GameMetaData gameMetaData)
