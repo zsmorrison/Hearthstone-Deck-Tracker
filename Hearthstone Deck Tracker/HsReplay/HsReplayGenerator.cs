@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -45,7 +46,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 					sw.WriteLine(line);
 			}
 
-			RunExe();
+			RunExe(stats?.StartTime);
 
 			if(new FileInfo(HsReplayOutput).Length == 0)
 			{
@@ -58,12 +59,14 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			return HsReplayOutput;
 		}
 
-		private static void RunExe()
+		private static void RunExe(DateTime? time)
 		{
+			var dateString = time?.ToString("yyyy-MM-dd");
+			var defaultDateArg = time.HasValue ? $"--default-date={dateString} " : "";
 			var procInfo = new ProcessStartInfo
 			{
 				FileName = HsReplayExe,
-				Arguments = TmpFilePath,
+				Arguments = defaultDateArg + TmpFilePath,
 				CreateNoWindow = true,
 				RedirectStandardOutput = true,
 				UseShellExecute = false
