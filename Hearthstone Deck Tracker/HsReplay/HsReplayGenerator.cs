@@ -19,17 +19,14 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	public class HsReplayGenerator
 	{
-		private static XmlMetaData[] GetMetaData(GameStats stats, GameMetaData metaData)
+		private static XmlMetaData[] GetMetaData(GameMetaData metaData)
 			=>
 				new[]
 				{
-					new XmlMetaData("x-hsbuild", metaData?.HearthstoneBuild),
+					new XmlMetaData("id", metaData?.GameId),
 					new XmlMetaData("x-address", metaData?.ServerAddress),
 					new XmlMetaData("x-clientid", metaData?.ClientId),
 					new XmlMetaData("x-spectateKey", metaData?.SpectateKey),
-					new XmlMetaData("x-gameid", metaData?.GameId),
-					new XmlMetaData("x-rank", stats?.Rank),
-					new XmlMetaData("x-legendrank", metaData?.LegendRank)
 				};
 
 		public static async Task<string> Generate(List<string> log, GameStats stats, GameMetaData gameMetaData)
@@ -54,7 +51,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 				return null;
 			}
 
-			AddMetaData(HsReplayOutput, GetMetaData(stats, gameMetaData));
+			AddMetaData(HsReplayOutput, gameMetaData, stats);
 			File.Delete(TmpFilePath);
 			return HsReplayOutput;
 		}
@@ -77,12 +74,27 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			proc?.WaitForExit();
 		}
 
-		private static void AddMetaData(string xmlFile, XmlMetaData[] metaData)
+		private static void AddMetaData(string xmlFile, GameMetaData gameMetaData, GameStats stats)
 		{
 			var xml = XDocument.Load(xmlFile);
-			var game = xml.Elements().FirstOrDefault(x => x.Name == "HSReplay")?.Elements().FirstOrDefault(x => x.Name == "Game");
-			foreach(var pair in metaData)
-				game?.SetAttributeValue(pair.Key, pair.Value);
+			var hsReplay = xml.Elements().FirstOrDefault(x => x.Name == "HSReplay");
+			if(hsReplay == null)
+				return;
+			hsReplay.SetAttributeValue("build", gameMetaData?.HearthstoneBuild);
+			var game = hsReplay.Elements().FirstOrDefault(x => x.Name == "Game");
+			if(game != null)
+			{
+				foreach (var pair in GetMetaData(gameMetaData))
+					game.SetAttributeValue(pair.Key, pair.Value);
+				var player = game.Elements().FirstOrDefault(x => x.Name == "Player" && x.Attributes().Any(a => a.Name == "name" && a.Value == stats?.PlayerName));
+				if (stats?.Rank > 0)
+					player?.SetAttributeValue("rank", stats.Rank);
+				if (gameMetaData?.LegendRank > 0)
+					player?.SetAttributeValue("legendRank", gameMetaData.LegendRank);
+				if(stats?.OpponentRank > 0)
+					game.Elements().FirstOrDefault(x => x.Name == "Player" && x.Attributes().Any(a => a.Name == "name" && a.Value == stats.OpponentName))?
+								   .SetAttributeValue("rank", stats.OpponentRank);
+			}
 			xml.Save(xmlFile);
 		}
 
