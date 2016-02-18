@@ -100,7 +100,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 
 		private static async Task Update()
 		{
-			var version = "1.0";
+			var version = "0.1";
 			var zipPath = string.Format(ZipFilePath, version);
 			Logger.WriteLine($"Downloading hsreplay converter version {version}...", "HsReplay");
 			using(var wc = new WebClient())

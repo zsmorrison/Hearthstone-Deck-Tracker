@@ -8,7 +8,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	public class HsReplayConstants
 	{
-		public const string DownloadUrl = "https://github.com/Epix37/HDT-Test/releases/download/hsreplay/hsreplay-{0}.zip";
+		public const string DownloadUrl = "https://github.com/Epix37/HSReplayFreezer/releases/download/{0}/hsreplay-{0}.zip";
 		public const string ZipFile = "hsreplay-{0}.zip";
 		private const string HsReplayXmlFile = "hslog.xml";
 		private const string TmpPowerLogFile = "tmp.log";
