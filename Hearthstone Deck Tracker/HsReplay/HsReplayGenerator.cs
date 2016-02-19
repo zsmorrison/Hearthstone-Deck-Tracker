@@ -91,11 +91,30 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 					player?.SetAttributeValue("rank", stats.Rank);
 				if (gameMetaData?.LegendRank > 0)
 					player?.SetAttributeValue("legendRank", gameMetaData.LegendRank);
+				if(player != null && stats != null && stats.DeckId != Guid.Empty)
+					AddDeckList(player, stats);
 				if(stats?.OpponentRank > 0)
 					game.Elements().FirstOrDefault(x => x.Name == "Player" && x.Attributes().Any(a => a.Name == "name" && a.Value == stats.OpponentName))?
 								   .SetAttributeValue("rank", stats.OpponentRank);
 			}
 			xml.Save(xmlFile);
+		}
+
+		private static void AddDeckList(XElement player, GameStats stats)
+		{
+			var deck = DeckList.Instance.Decks.FirstOrDefault(x => x.DeckId == stats.DeckId)?.GetVersion(stats.PlayerDeckVersion);
+			if(deck == null)
+				return;
+			var xmlDeck = new XElement("Deck");
+			foreach(var card in deck.Cards)
+			{
+				var xmlCard = new XElement("Card");
+				xmlCard.SetAttributeValue("id", card.Id);
+				if(card.Count > 1)
+					xmlCard.SetAttributeValue("count", card.Count);
+				xmlDeck.Add(xmlCard);
+			}
+			player.Add(xmlDeck);
 		}
 
 		private static async Task Update()
