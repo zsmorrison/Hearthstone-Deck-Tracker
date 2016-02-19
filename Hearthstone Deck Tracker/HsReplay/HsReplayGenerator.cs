@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using HearthDb.Enums;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility.Logging;
@@ -85,6 +86,9 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			var game = hsReplay.Elements().FirstOrDefault(x => x.Name == "Game");
 			if(game != null)
 			{
+				var mode = HearthDbConverter.GetGameType(stats.GameMode);
+				if (mode != GameType.GT_UNKNOWN)
+					game.SetAttributeValue("type", (int)mode);
 				foreach (var pair in GetMetaData(gameMetaData))
 					game.SetAttributeValue(pair.Key, pair.Value);
 				var player = game.Elements().FirstOrDefault(x => x.Name == "Player" && x.Attributes().Any(a => a.Name == "name" && a.Value == stats?.PlayerName));
