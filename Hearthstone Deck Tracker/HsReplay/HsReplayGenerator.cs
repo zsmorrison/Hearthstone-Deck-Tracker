@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Stats;
+using Hearthstone_Deck_Tracker.Utility.Logging;
 using static Hearthstone_Deck_Tracker.HsReplay.HsReplayConstants;
 
 #endregion
@@ -47,7 +48,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 
 			if(new FileInfo(HsReplayOutput).Length == 0)
 			{
-				Logger.WriteLine("Not able to convert log file.", "HsReplayGenerator");
+				Log.Error("Not able to convert log file.");
 				return null;
 			}
 
@@ -102,10 +103,10 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 		{
 			var version = "0.1";
 			var zipPath = string.Format(ZipFilePath, version);
-			Logger.WriteLine($"Downloading hsreplay converter version {version}...", "HsReplay");
+			Log.Info($"Downloading hsreplay converter version {version}...");
 			using(var wc = new WebClient())
 				await wc.DownloadFileTaskAsync(string.Format(DownloadUrl, version), zipPath);
-			Logger.WriteLine("Finished downloading. Unpacking...", "HsReplay");
+			Log.Info("Finished downloading. Unpacking...");
 			using(var fs = new FileInfo(zipPath).OpenRead())
 			{
 				var archive = new ZipArchive(fs, ZipArchiveMode.Read);

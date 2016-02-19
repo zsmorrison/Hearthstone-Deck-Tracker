@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hearthstone_Deck_Tracker.Controls.Error;
 using Hearthstone_Deck_Tracker.Stats;
+using Hearthstone_Deck_Tracker.Utility.Logging;
 
 #endregion
 
@@ -42,7 +43,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 					stream.Write(data, 0, data.Length);
 				var webResponse = await request.GetResponseAsync();
 				var location = webResponse.Headers["Location"];
-				Logger.WriteLine("< " + location, "HsReplayAPI");
+				Log.Debug("< " + location);
 				return location;
 			}
 			catch(WebException e)
