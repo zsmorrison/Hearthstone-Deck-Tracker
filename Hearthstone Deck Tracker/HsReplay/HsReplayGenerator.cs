@@ -21,16 +21,6 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	public class HsReplayGenerator
 	{
-		private static XmlMetaData[] GetMetaData(GameMetaData metaData)
-			=>
-				new[]
-				{
-					new XmlMetaData("id", metaData?.GameId),
-					new XmlMetaData("x-address", metaData?.ServerAddress),
-					new XmlMetaData("x-clientid", metaData?.ClientId),
-					new XmlMetaData("x-spectateKey", metaData?.SpectateKey),
-				};
-
 		public static async Task<string> Generate(List<string> log, GameStats stats, GameMetaData gameMetaData)
 		{
 			Directory.CreateDirectory(HsReplayPath);
@@ -86,11 +76,16 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			var game = hsReplay.Elements().FirstOrDefault(x => x.Name == "Game");
 			if(game != null)
 			{
-				var mode = HearthDbConverter.GetGameType(stats.GameMode);
-				if (mode != GameType.GT_UNKNOWN)
-					game.SetAttributeValue("type", (int)mode);
-				foreach (var pair in GetMetaData(gameMetaData))
-					game.SetAttributeValue(pair.Key, pair.Value);
+				if(stats != null)
+				{
+					var mode = HearthDbConverter.GetGameType(stats.GameMode);
+					if (mode != GameType.GT_UNKNOWN)
+						game.SetAttributeValue("type", (int)mode);
+				}
+				game.SetAttributeValue("id", gameMetaData?.GameId);
+				game.SetAttributeValue("x-address", gameMetaData?.ServerAddress);
+				game.SetAttributeValue("x-clientid", gameMetaData?.ClientId);
+				game.SetAttributeValue("x-spectateKey", gameMetaData?.SpectateKey);
 				var player = game.Elements().FirstOrDefault(x => x.Name == "Player" && x.Attributes().Any(a => a.Name == "name" && a.Value == stats?.PlayerName));
 				if (stats?.Rank > 0)
 					player?.SetAttributeValue("rank", stats.Rank);
