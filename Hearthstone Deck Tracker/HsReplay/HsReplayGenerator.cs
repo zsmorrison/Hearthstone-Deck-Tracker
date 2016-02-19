@@ -28,6 +28,8 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 
 			if(!File.Exists(HsReplayExe) || CheckForUpdate())
 				await Update();
+			if(!File.Exists(Msvcr100DllPath))
+				File.Copy(Msvcr100DllHearthstonePath, Msvcr100DllPath);
 
 			using(var sw = new StreamWriter(TmpFilePath))
 			{

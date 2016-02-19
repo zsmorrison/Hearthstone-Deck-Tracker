@@ -10,6 +10,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 	{
 		public const string DownloadUrl = "https://github.com/Epix37/HSReplayFreezer/releases/download/{0}/hsreplay-{0}.zip";
 		public const string ZipFile = "hsreplay-{0}.zip";
+		private const string Msvcr100Dll = "msvcr100.dll";
 		private const string HsReplayXmlFile = "hslog.xml";
 		private const string TmpPowerLogFile = "tmp.log";
 		private const string HsReplayDir = "HsReplay";
@@ -17,6 +18,8 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 		private const string TmpDir = "temp";
 		private const string VersionFile = "version";
 
+		public static string Msvcr100DllHearthstonePath => Path.Combine(Config.Instance.HearthstoneDirectory, Msvcr100Dll);
+		public static string Msvcr100DllPath => Path.Combine(HsReplayPath, Msvcr100Dll);
 		public static string TmpDirPath => Path.Combine(HsReplayPath, TmpDir);
 		public static string TmpFilePath => Path.Combine(TmpDirPath, TmpPowerLogFile);
 		public static string HsReplayPath => Path.Combine(Config.AppDataPath, HsReplayDir);
