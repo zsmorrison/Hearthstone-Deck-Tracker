@@ -276,7 +276,9 @@
     <Compile Include="HsReplay\HsReplayConstants.cs" />
     <Compile Include="HsReplay\HsReplayGenerator.cs" />
     <Compile Include="HsReplay\HsReplayInfo.cs" />
+    <Compile Include="HsReplay\HsReplayUpdater.cs" />
     <Compile Include="HsReplay\HsReplayUploader.cs" />
+    <Compile Include="HsReplay\XmlHelper.cs" />
     <Compile Include="LogReader\Handlers\LoadingScreenHandler.cs" />
     <Compile Include="LogReader\Handlers\NetHandler.cs" />
     <Compile Include="Enums\Hearthstone\Mode.cs" />
