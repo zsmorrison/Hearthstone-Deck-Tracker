@@ -9,7 +9,7 @@
     <GroupBox Header="MATCHES">
         <DockPanel>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Visibility="{Binding MultiSelectPanelVisibility, RelativeSource={RelativeSource AncestorType=UserControl}}">
-                <Button Margin="4,4,0,4" MinWidth="100" Click="ButtonMultiMove_OnClick" ToolTip="All selected games must have the same player hero."
+                <Button Margin="4,4,0,4" MinWidth="120" Click="ButtonMultiMove_OnClick" ToolTip="All selected games must have the same player hero."
                         ToolTipService.ShowOnDisabled="True" IsEnabled="{Binding ButtonMultiMoveEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}">
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Width="12">
@@ -17,17 +17,17 @@
                                 <VisualBrush Visual="{Binding MoveIconVisual, RelativeSource={RelativeSource AncestorType=UserControl}}"></VisualBrush>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <TextBlock Text="MOVE ALL" Margin="4,0,0,0"/>
+                        <TextBlock Text="MOVE SELECTED" Margin="4,0,0,0"/>
                     </StackPanel>
                 </Button>
-                <Button Margin="4,4,0,4" MinWidth="100" Click="ButtonMultiDelete_OnClick" Background="Red">
+                <Button Margin="4,4,0,4" MinWidth="120" Click="ButtonMultiDelete_OnClick" Background="Red">
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Width="12">
                             <Rectangle.Fill>
                                 <VisualBrush Visual="{Binding DeleteIconVisual, RelativeSource={RelativeSource AncestorType=UserControl}}"></VisualBrush>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <TextBlock Text="DELETE ALL" Margin="4,0,0,0"/>
+                        <TextBlock Text="DELETE SELECTED" Margin="4,0,0,0"/>
                      </StackPanel>
                 </Button>
             </StackPanel>
@@ -139,7 +139,7 @@
                                     <TextBlock Text="REPLAY" Margin="4,0,0,0"/>
                                 </StackPanel>
                             </Button>
-                            <Button Margin="4,4,0,4" MinWidth="70" Click="ButtonShowOppDeck_OnClick" IsEnabled="{Binding Path=SelectedItem.CanGetOpponentDeck, ElementName=DataGridGames}">
+                            <Button Margin="4,4,0,4" MinWidth="70" Click="ButtonShowOppDeck_OnClick" IsEnabled="{Binding Path=CanGetOpponentDeck}">
                                 <StackPanel Orientation="Horizontal">
                                     <Rectangle Width="12">
                                         <Rectangle.Fill>
