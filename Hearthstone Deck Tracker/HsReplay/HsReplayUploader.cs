@@ -21,7 +21,13 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			//TODO
 		}
 
-		public static async Task<string> UploadXml(string filePath)
+		public static async Task<string> UploadXml(string xml)
+		{
+			var location = await PostAsync("http://hsreplayarchive.org/api/v1/replay/upload", xml);
+			return location.Split('/').Last();
+		}
+
+		public static async Task<string> UploadXmlFromFile(string filePath)
 		{
 			string content;
 			using(var sr = new StreamReader(filePath))

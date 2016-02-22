@@ -23,6 +23,9 @@ using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.FlyoutControls;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Utility;
+using Hearthstone_Deck_Tracker.HsReplay;
+using Hearthstone_Deck_Tracker.Replay;
+using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility.Extensions;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using Hearthstone_Deck_Tracker.Windows;
@@ -710,9 +713,11 @@ namespace Hearthstone_Deck_Tracker
 		{
 			var exe = Path.Combine(Config.Instance.HearthstoneDirectory, "Hearthstone.exe");
 			return !File.Exists(exe) ? (int?)null : FileVersionInfo.GetVersionInfo(exe).FilePrivatePart;
-		}
 
+		}
+		
 		public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+
 		{
 			if(depObj == null)
 				yield break;
@@ -742,5 +747,29 @@ namespace Hearthstone_Deck_Tracker
 					yield return childOfChild;
 			}
 		}
+
+		public static async Task<bool> ShowReplay(GameStats game)
+		{
+			if (game == null)
+				return false;
+			var helper = new ReplayHelper(game);
+			if(!game.HsReplay?.Converted ?? true)
+				await helper.GenerateHsReplay();
+			if(!game.HsReplay?.Uploaded ?? true)
+			{
+				var id = await HsReplayUploader.UploadXml(helper.HsReplay);
+				game.HsReplay = new HsReplayInfo(id);
+				if(DefaultDeckStats.Instance.DeckStats.Any(x => x.DeckId == game.DeckId))
+					DefaultDeckStats.Save();
+				else
+					DeckStatsList.Save();
+			}
+			if(game.HsReplay?.Uploaded ?? false)
+				TryOpenUrl("http://hsreplayarchive.org/joust/replay/" + game.HsReplay?.Id);
+			else if (game.HasReplayFile)
+				ReplayReader.LaunchReplayViewer(game.ReplayFile);
+			return true;
+		}
+	
 	}
 }

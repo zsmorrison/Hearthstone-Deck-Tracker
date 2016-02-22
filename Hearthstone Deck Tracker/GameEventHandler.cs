@@ -201,7 +201,7 @@ namespace Hearthstone_Deck_Tracker
 				DeckStatsList.Save();
 				return;
 			}
-			var replayId = await HsReplayUploader.UploadXml(file);
+			var replayId = await HsReplayUploader.UploadXmlFromFile(file);
 			stats.HsReplay = new HsReplayInfo(replayId);
 			DeckStatsList.Save();
 			DefaultDeckStats.Save();
