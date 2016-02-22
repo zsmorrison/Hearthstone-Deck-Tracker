@@ -90,7 +90,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 
 		private static class XmlElements
 		{
-			public const string HsReplay = "HsReplay";
+			public const string HsReplay = "HSReplay";
 			public const string Game = "Game";
 			public const string Player = "Player";
 			public const string Deck = "Deck";
