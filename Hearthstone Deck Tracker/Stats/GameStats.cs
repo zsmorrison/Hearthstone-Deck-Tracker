@@ -41,6 +41,7 @@ namespace Hearthstone_Deck_Tracker.Stats
 			PlayerHero = playerHero;
 			StartTime = DateTime.Now;
 			GameId = Guid.NewGuid();
+			HearthstoneBuild = Helper.GetHearthstoneBuild();
 		}
 
 		private string GamesDir => Config.Instance.DataDir + "Games";
@@ -66,6 +67,7 @@ namespace Hearthstone_Deck_Tracker.Stats
 		public int Rank { get; set; }
 		public int OpponentRank { get; set; }
 		public Region Region { get; set; }
+		public int? HearthstoneBuild { get; set; }
 
 		public Guid DeckId
 		{
@@ -209,6 +211,8 @@ namespace Hearthstone_Deck_Tracker.Stats
 				WasConceded = WasConceded,
 				VerifiedHeroes = VerifiedHeroes,
 				PlayerDeckVersion = PlayerDeckVersion,
+				HearthstoneBuild = HearthstoneBuild,
+				HsReplay = HsReplay,
 				IsClone = true
 			};
 			newGame.Save();

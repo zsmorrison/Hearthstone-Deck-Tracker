@@ -17,7 +17,9 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 		private const string HsReplayExeFilename = "convert.exe";
 		private const string TmpDir = "temp";
 		private const string VersionFile = "version";
+		private const string BuildDatesFile = "builddates.xml";
 
+		public static string BuildDateFilePath => Path.Combine(HsReplayPath, BuildDatesFile);
 		public static string Msvcr100DllHearthstonePath => Path.Combine(Config.Instance.HearthstoneDirectory, Msvcr100Dll);
 		public static string Msvcr100DllPath => Path.Combine(HsReplayPath, Msvcr100Dll);
 		public static string TmpDirPath => Path.Combine(HsReplayPath, TmpDir);

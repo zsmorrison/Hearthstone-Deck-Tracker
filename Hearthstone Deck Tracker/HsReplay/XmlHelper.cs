@@ -19,7 +19,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			var hsReplay = xml.Elements().FirstOrDefault(x => x.Name == XmlElements.HsReplay);
 			if(hsReplay == null)
 				return;
-			hsReplay.SetAttributeValue(XmlAttributes.Build, gameMetaData?.HearthstoneBuild);
+			hsReplay.SetAttributeValue(XmlAttributes.Build, stats.HearthstoneBuild ?? BuildDates.GetByDate(stats.StartTime));
 			var game = hsReplay.Elements().FirstOrDefault(x => x.Name == XmlElements.Game);
 			if(game != null)
 			{
