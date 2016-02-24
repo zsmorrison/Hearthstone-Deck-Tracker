@@ -285,6 +285,7 @@ namespace Hearthstone_Deck_Tracker.Stats
 		{
 			try
 			{
+				LastGames.Instance.Remove(GameId);
 				if(!File.Exists(GameFile))
 					return;
 				File.Delete(GameFile);
@@ -316,7 +317,7 @@ namespace Hearthstone_Deck_Tracker.Stats
 			turnStats.AddPlay(type, cardId);
 		}
 
-		public override string ToString() => Result + " vs " + OpponentHero + ", " + StartTime;
+		public override string ToString() => $"[{GameMode}] {Result} VS. {OpponentName} ({OpponentHero}), {StartTime.ToString("g")}";
 
 		public void ResetHearthstatsIds()
 		{

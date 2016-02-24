@@ -833,6 +833,8 @@ namespace Hearthstone_Deck_Tracker
 					DeckStatsList.Save();
 				}
 
+				LastGames.Instance.Add(_game.CurrentGameStats);
+				LastGames.Save();
 				Core.MainWindow.DeckPickerList.UpdateDecks(forceUpdate: new[] {_assignedDeck});
 				statsControl.Refresh();
 			}

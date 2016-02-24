@@ -717,7 +717,6 @@ namespace Hearthstone_Deck_Tracker
 		}
 		
 		public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
-
 		{
 			if(depObj == null)
 				yield break;

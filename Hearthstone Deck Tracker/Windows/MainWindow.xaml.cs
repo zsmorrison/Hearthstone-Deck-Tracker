@@ -33,6 +33,7 @@ using MahApps.Metro.Controls.Dialogs;
 using static System.Windows.Visibility;
 using Application = System.Windows.Application;
 using Card = Hearthstone_Deck_Tracker.Hearthstone.Card;
+using MenuItem = System.Windows.Controls.MenuItem;
 
 #endregion
 
@@ -938,16 +939,12 @@ namespace Hearthstone_Deck_Tracker.Windows
 
 		private void HyperlinkUpdateNow_OnClick(object sender, RoutedEventArgs e) => Updater.StartUpdate();
 
-		private void MenuItemHsReplayLatest_OnClick(object sender, RoutedEventArgs e)
+		private async void MenuItemLastGamesReplay_OnClick(object sender, RoutedEventArgs e)
 		{
-			//TODO: implement more efficient way of finding the latest match
-			var latest = DeckStatsList.Instance.DeckStats.Concat(DefaultDeckStats.Instance.DeckStats).SelectMany(x => x.Games).OrderByDescending(x => x.StartTime).FirstOrDefault();
-			if(latest?.HsReplay?.Uploaded ?? false)
-				Helper.TryOpenUrl("http://hsreplayarchive.org/joust/replay/" + latest.HsReplay.Id);
-			else if(!(latest?.HsReplay?.Converted ?? false))
-			{ /*TODO -  not yet converted*/ }
-			else
-			{ /*TODO -  converting failed*/ }
+			var game = (e.OriginalSource as MenuItem)?.DataContext as GameStats;
+			if(game == null)
+				return;
+			await Helper.ShowReplay(game);
 		}
 	}
 }

@@ -289,6 +289,7 @@
     <Compile Include="Stats\CompiledStats\ChartStats.cs" />
     <Compile Include="Stats\CompiledStats\ClassStats.cs" />
     <Compile Include="Stats\CompiledStats\MatchupStats.cs" />
+    <Compile Include="Stats\LastGames.cs" />
     <Compile Include="Utility\AttachedFormattedString.cs" />
     <Compile Include="Utility\BatteryMonitor.cs" />
     <Compile Include="Utility\BoardDamage\BoardCard.cs" />
@@ -313,6 +314,7 @@
     <Compile Include="Importing\Websites\Hearthstonetopdecks.cs" />
     <Compile Include="Importing\Websites\Icyveins.cs" />
     <Compile Include="Importing\Websites\Tempostorm.cs" />
+    <Compile Include="Utility\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Utility\Extensions\CardListExtensions.cs" />
     <Compile Include="Utility\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Utility\Extensions\TaskExtensions.cs" />
