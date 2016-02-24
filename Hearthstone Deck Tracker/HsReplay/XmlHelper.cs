@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using HearthDb.Enums;
@@ -13,7 +14,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	internal class XmlHelper
 	{
-		internal static void AddData(string xmlFile, GameMetaData gameMetaData, GameStats stats)
+		internal static void AddData(string xmlFile, GameMetaData gameMetaData, GameStats stats, bool includeDeck)
 		{
 			var xml = XDocument.Load(xmlFile);
 			var hsReplay = xml.Elements().FirstOrDefault(x => x.Name == XmlElements.HsReplay);
@@ -24,19 +25,19 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			if(game != null)
 			{
 				AddGameAttributes(game, gameMetaData, stats);
-				AddPlayerAttributes(game, gameMetaData, stats);
+				AddPlayerAttributes(game, gameMetaData, stats, includeDeck);
 			}
 			xml.Save(xmlFile);
 		}
 
-		private static void AddPlayerAttributes(XElement game, GameMetaData gameMetaData, GameStats stats)
+		private static void AddPlayerAttributes(XElement game, GameMetaData gameMetaData, GameStats stats, bool includeDeck)
 		{
 			var player = game.Elements().FirstOrDefault(x => x.Name == XmlElements.Player && x.Attributes().Any(a => a.Name == XmlAttributes.Name && a.Value == stats?.PlayerName));
 			if(stats?.Rank > 0)
 				player?.SetAttributeValue(XmlAttributes.Rank, stats.Rank);
 			if(gameMetaData?.LegendRank > 0)
 				player?.SetAttributeValue(XmlAttributes.LegendRank, gameMetaData.LegendRank);
-			if(player != null && stats != null && stats.DeckId != Guid.Empty)
+			if(includeDeck && player != null && stats != null && stats.DeckId != Guid.Empty)
 				AddDeckList(player, stats);
 			if(stats?.OpponentRank > 0)
 				game.Elements().FirstOrDefault(x => x.Name == XmlElements.Player && x.Attributes().Any(a => a.Name == XmlAttributes.Name && a.Value == stats.OpponentName))?

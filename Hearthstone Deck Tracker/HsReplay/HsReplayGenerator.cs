@@ -17,7 +17,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	public class HsReplayGenerator
 	{
-		public static async Task<string> Generate(List<string> log, GameStats stats, GameMetaData gameMetaData)
+		public static async Task<string> Generate(List<string> log, GameStats stats, GameMetaData gameMetaData, bool includeDeck = false)
 		{
 			Directory.CreateDirectory(HsReplayPath);
 			Directory.CreateDirectory(TmpDirPath);
@@ -45,7 +45,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 				return null;
 			}
 
-			XmlHelper.AddData(HsReplayOutput, gameMetaData, stats);
+			XmlHelper.AddData(HsReplayOutput, gameMetaData, stats, includeDeck);
 			File.Delete(TmpFilePath);
 			return HsReplayOutput;
 		}
