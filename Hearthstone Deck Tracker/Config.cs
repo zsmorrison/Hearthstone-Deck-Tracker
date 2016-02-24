@@ -406,6 +406,9 @@ namespace Hearthstone_Deck_Tracker
 		[DefaultValue(true)]
 		public bool HighlightLastDrawn = true;
 
+		[DefaultValue(true)]
+		public bool HsReplayAutoUpload = true;
+
 		[DefaultValue(-1)]
 		public int IgnoreNewsId = -1;
 

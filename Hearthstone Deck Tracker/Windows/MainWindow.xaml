@@ -357,7 +357,7 @@
                         <Separator Grid.Column="2"/>
                     </Grid>
                     <MenuItem Header="LOGIN WITH BATTLE.NET"/>
-                    <CheckBox Name="MenuItemCheckBoxReplayUpload" Content="AUTO UPLOAD" IsChecked="True" Margin="-24,0,0,0" FontSize="14" />
+                    <CheckBox Name="MenuItemCheckBoxReplayUpload" Content="AUTO UPLOAD" IsChecked="{Binding HsReplayAutoUpload, Source={StaticResource ConfigWrapper}}" Margin="-24,0,0,0" FontSize="14" />
                     <CheckBox Name="MenuItemCheckBoxReplayPublic" Content="PUBLIC BY DEFAULT" IsChecked="True" Margin="-24,0,0,0" FontSize="14"/>
                 </MenuItem>
                 <MenuItem Header="_HEARTHSTATS" SubmenuOpened="MenuItemHearthStats_OnSubmenuOpened">

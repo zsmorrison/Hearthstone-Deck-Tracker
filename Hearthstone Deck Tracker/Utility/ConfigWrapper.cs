@@ -89,6 +89,16 @@ namespace Hearthstone_Deck_Tracker.Utility
 			}
 		}
 
+		public static bool HsReplayAutoUpload
+		{
+			get { return Config.Instance.HsReplayAutoUpload; }
+			set
+			{
+				Config.Instance.HsReplayAutoUpload = value;
+				Config.Save();
+			}
+		}
+
 		public static Visibility ShowLastPlayedDateOnDeckVisibility => Config.Instance.ShowLastPlayedDateOnDeck ? Visibility.Visible : Visibility.Collapsed;
 
 		public static Visibility UseButtonVisiblity => Config.Instance.AutoUseDeck ? Visibility.Collapsed : Visibility.Visible;

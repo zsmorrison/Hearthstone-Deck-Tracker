@@ -147,11 +147,14 @@ namespace Hearthstone_Deck_Tracker
 			await _game.GameModeDetection();
 			Log.Info("Detected game mode, continuing.");
 
-			if(Config.Instance.RecordReplays && _game.Entities.Count > 0 && !_game.SavedReplay && _game.CurrentGameStats != null
-			   && _game.CurrentGameStats.ReplayFile == null && RecordCurrentGameMode)
+			if(RecordCurrentGameMode && _game.CurrentGameStats != null)
 			{
-				_game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(_game.PowerLog);
-				UploadHsReplay(_game.PowerLog, _game.CurrentGameStats, _game.MetaData);
+				if(Config.Instance.RecordReplays && _game.Entities.Count > 0 && !_game.SavedReplay && _game.CurrentGameStats.ReplayFile == null)
+					_game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(_game.PowerLog);
+				if(Config.Instance.HsReplayAutoUpload)
+				{
+					UploadHsReplay(_game.PowerLog, _game.CurrentGameStats, _game.MetaData);
+				}
 			}
 
 			SaveAndUpdateStats();
