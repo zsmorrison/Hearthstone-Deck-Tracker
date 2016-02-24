@@ -50,7 +50,7 @@ namespace Hearthstone_Deck_Tracker.Replay
 		public string RawLog { get; }
 		public string HsReplay { get; private set; }
 
-		private void StoreHsReplay(string filePath)
+		public void StoreHsReplay(string filePath)
 		{
 			if(HasHsReplayFile)
 				return;

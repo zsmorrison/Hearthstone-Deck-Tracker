@@ -205,6 +205,9 @@ namespace Hearthstone_Deck_Tracker
 			stats.HsReplay = new HsReplayInfo(replayId);
 			DeckStatsList.Save();
 			DefaultDeckStats.Save();
+			var rh = new ReplayHelper(stats);
+			if(rh.ReplayExists)
+				rh.StoreHsReplay(file);
 		}
 
 		public void HandleConcede()
