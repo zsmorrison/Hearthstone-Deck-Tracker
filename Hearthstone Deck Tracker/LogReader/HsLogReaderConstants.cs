@@ -30,7 +30,7 @@ namespace Hearthstone_Deck_Tracker.LogReader
 		public static LogReaderInfo PowerLogReaderInfo => new LogReaderInfo
 		{
 			Name = "Power",
-			StartsWithFilters = new[] {"PowerTaskList."},
+			StartsWithFilters = new[] { "PowerTaskList.DebugPrintPower" },
 			ContainsFilters = new[] {"Begin Spectating", "Start Spectator", "End Spectator"}
 		};
 

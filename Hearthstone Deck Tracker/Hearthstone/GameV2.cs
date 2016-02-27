@@ -70,6 +70,8 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 		public Dictionary<int, Entity> Entities { get; set; }
 		public GameMetaData MetaData { get; } = new GameMetaData();
 
+		private GameV2 _previousGame;
+
 		public Mode CurrentMode
 		{
 			get { return _currentMode; }
@@ -184,6 +186,18 @@ namespace Hearthstone_Deck_Tracker.Hearthstone
 			}
 			_gameModeDetectionComplete = true;
 			_gameModeDetectionRunning = false;
+		}
+
+		public void RestorePreviousGame()
+		{
+			if(_previousGame == null || _previousGame.MetaData?.GameId != MetaData?.GameId)
+				return;
+			Entities = _previousGame.Entities;
+			Player = _previousGame.Player;
+			Opponent = _previousGame.Opponent;
+			OpponentSecrets = _previousGame.OpponentSecrets;
+			OpponentSecretCount = _previousGame.OpponentSecretCount;
+			CurrentGameStats = _previousGame.CurrentGameStats;
 		}
 
 		public void NewArenaDeck(string heroId)
