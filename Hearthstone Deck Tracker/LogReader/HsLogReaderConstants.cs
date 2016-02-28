@@ -26,6 +26,7 @@ namespace Hearthstone_Deck_Tracker.LogReader
 		public static readonly Regex GameModeRegex = new Regex(@"prevMode=(?<prev>(\w+)).*currMode=(?<curr>(\w+))");
 		public static readonly Regex ConnectionRegex = new Regex(@"ConnectAPI\.GotoGameServer -- address=(?<address>(.*)), game=(?<game>(.*)), client=(?<client>(.*)), spectateKey=(?<spectateKey>(.*))");
 		public static readonly Regex LegendRankRegex = new Regex(@"legend rank (?<rank>(\d+))");
+		public static readonly Regex DisconnectRegex = new Regex(@"Gameplay\.Awake\(\) - DISCONNECTED");
 
 		public static LogReaderInfo PowerLogReaderInfo => new LogReaderInfo
 		{

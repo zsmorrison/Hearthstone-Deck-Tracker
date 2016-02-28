@@ -18,26 +18,32 @@ namespace Hearthstone_Deck_Tracker.LogReader.Handlers
 		public void Handle(string logLine, IHsGameState gameState, IGame game)
 		{
 			var match = HsLogReaderConstants.GameModeRegex.Match(logLine);
-			if(!match.Success)
-				return;
-			game.CurrentMode = GetMode(match.Groups["curr"].Value);
-			game.PreviousMode = GetMode(match.Groups["prev"].Value);
-
-			var newMode = GetGameMode(game.CurrentMode) ?? GetGameMode(game.PreviousMode);
-			if(newMode.HasValue && !(game.CurrentGameMode == Ranked && newMode.Value == Casual))
-				game.CurrentGameMode = newMode.Value;
-			if(game.PreviousMode == Mode.GAMEPLAY)
-				gameState.GameHandler.HandleInMenu();
-			switch(game.CurrentMode)
+			if(match.Success)
 			{
-				case Mode.COLLECTIONMANAGER:
-				case Mode.TAVERN_BRAWL:
-					gameState.GameHandler.ResetConstructedImporting();
-					break;
-				case Mode.DRAFT:
-					game.ResetArenaCards();
-					break;
+				game.CurrentMode = GetMode(match.Groups["curr"].Value);
+				game.PreviousMode = GetMode(match.Groups["prev"].Value);
+
+				var newMode = GetGameMode(game.CurrentMode) ?? GetGameMode(game.PreviousMode);
+				if(newMode.HasValue && !(game.CurrentGameMode == Ranked && newMode.Value == Casual))
+					game.CurrentGameMode = newMode.Value;
+				if(game.PreviousMode == Mode.GAMEPLAY)
+					gameState.GameHandler.HandleInMenu();
+				switch(game.CurrentMode)
+				{
+					case Mode.COLLECTIONMANAGER:
+					case Mode.TAVERN_BRAWL:
+						gameState.GameHandler.ResetConstructedImporting();
+						break;
+					case Mode.DRAFT:
+						game.ResetArenaCards();
+						break;
+				}
+				return;
 			}
+			match = HsLogReaderConstants.DisconnectRegex.Match(logLine);
+			if(match.Success)
+				game.StorePowerLog();
+
 		}
 
 		private GameMode? GetGameMode(Mode mode)

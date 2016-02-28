@@ -139,8 +139,8 @@ namespace Hearthstone_Deck_Tracker.LogReader.Handlers
 		{
 			if(game.Entities.Count > 1 || game.Entities.FirstOrDefault().Value?.Name != "GameEntity")
 				return;
+			Log.Info("Game was already in progress.");
 			gameState.WasInProgress = true;
-			//game.RestorePreviousGame(); TODO
 		}
 
 		private static void DeterminePlayers(IHsGameState gameState, IGame game, int controller)
