@@ -21,8 +21,8 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			if(hsReplay == null)
 				return;
 			hsReplay.SetAttributeValue(XmlAttributes.Build, stats.HearthstoneBuild ?? BuildDates.GetByDate(stats.StartTime));
-			var game = hsReplay.Elements().FirstOrDefault(x => x.Name == XmlElements.Game);
-			if(game != null)
+			var games = hsReplay.Elements().Where(x => x.Name == XmlElements.Game);
+			foreach(var game in games)
 			{
 				AddGameAttributes(game, gameMetaData, stats);
 				AddPlayerAttributes(game, gameMetaData, stats, includeDeck);
