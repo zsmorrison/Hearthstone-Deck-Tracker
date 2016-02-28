@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Hearthstone_Deck_Tracker.Controls.Error;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility.Logging;
+using static Hearthstone_Deck_Tracker.HsReplay.HsReplayConstants;
 
 #endregion
 
@@ -23,7 +24,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 
 		public static async Task<string> UploadXml(string xml)
 		{
-			var location = await PostAsync("http://hsreplayarchive.org/api/v1/replay/upload", xml);
+			var location = await PostAsync(UploadUrl, xml);
 			return location.Split('/').Last();
 		}
 
@@ -32,8 +33,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			string content;
 			using(var sr = new StreamReader(filePath))
 				content = sr.ReadToEnd();
-			var location = await PostAsync("http://hsreplayarchive.org/api/v1/replay/upload", content);
-			return location.Split('/').Last();
+			return await UploadXml(content);
 		}
 
 		private static async Task<string> PostAsync(string url, string data) => await PostAsync(url, Encoding.UTF8.GetBytes(data));
