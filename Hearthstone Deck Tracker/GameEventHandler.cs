@@ -149,12 +149,14 @@ namespace Hearthstone_Deck_Tracker
 
 			if(RecordCurrentGameMode && _game.CurrentGameStats != null)
 			{
+				var powerLog = new List<string>();
+				foreach(var stored in _game.StoredPowerLogs.Where(x => x.Item1 == _game.MetaData.GameId))
+					powerLog.AddRange(stored.Item2);
+				powerLog.AddRange(_game.PowerLog);
 				if(Config.Instance.RecordReplays && _game.Entities.Count > 0 && !_game.SavedReplay && _game.CurrentGameStats.ReplayFile == null)
-					_game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(_game.PowerLog);
+					_game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(powerLog);
 				if(Config.Instance.HsReplayAutoUpload)
-				{
-					UploadHsReplay(_game.PowerLog, _game.CurrentGameStats, _game.MetaData, !_game.NoMatchingDeck);
-				}
+					UploadHsReplay(powerLog, _game.CurrentGameStats, _game.MetaData, !_game.NoMatchingDeck);
 			}
 
 			SaveAndUpdateStats();
