@@ -406,7 +406,7 @@ namespace Hearthstone_Deck_Tracker.LogReader.Handlers
 		{
 			await game.GameTime.WaitForDuration(50);
 			var entity = game.Entities[id];
-			if(!entity.IsHero && !entity.IsHeroPower)
+			if(!entity.IsHero && !entity.IsHeroPower && !entity.HasTag(PLAYER_ID))
 				ZoneChangeFromDeck(gameState, id, game, value, prevValue, entity.GetTag(CONTROLLER), cardId);
 		}
 
