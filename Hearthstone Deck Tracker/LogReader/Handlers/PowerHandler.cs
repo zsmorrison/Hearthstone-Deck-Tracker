@@ -89,6 +89,7 @@ namespace Hearthstone_Deck_Tracker.LogReader.Handlers
 							entity.Value.Name = tmpEntity.Name;
 							foreach(var t in tmpEntity.Tags)
 								entity.Value.SetTag(t.Key, t.Value);
+							SetPlayerName(game, entity.Value.GetTag(GAME_TAG.PLAYER_ID), tmpEntity.Name);
 							_tmpEntities.Remove(tmpEntity);
 							_tagChangeHandler.TagChange(gameState, match.Groups["tag"].Value, entity.Key, match.Groups["value"].Value, game);
 						}
@@ -119,10 +120,7 @@ namespace Hearthstone_Deck_Tracker.LogReader.Handlers
 					match = EntityNameRegex.Match(logLine);
 					var name = match.Groups["name"].Value;
 					var player = int.Parse(match.Groups["value"].Value);
-					if(player == game.Player.Id)
-						game.Player.Name = name;
-					else if(player == game.Opponent.Id)
-						game.Opponent.Name = name;
+					SetPlayerName(game, player, name);
 				}
 			}
 			else if(CreationRegex.IsMatch(logLine))
@@ -286,6 +284,14 @@ namespace Hearthstone_Deck_Tracker.LogReader.Handlers
 
 			if(!setup)
 				gameState.SetupDone = true;
+		}
+
+		private static void SetPlayerName(IGame game, int playerId, string name)
+		{
+			if(playerId == game.Player.Id)
+				game.Player.Name = name;
+			else if(playerId == game.Opponent.Id)
+				game.Opponent.Name = name;
 		}
 
 		private static void AddTargetAsKnownCardId(IHsGameState gameState, IGame game, Match match, int count = 1)
