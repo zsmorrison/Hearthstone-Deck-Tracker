@@ -8,6 +8,7 @@ namespace Hearthstone_Deck_Tracker.LogReader
 {
 	public static class HsLogReaderConstants
 	{
+		public const string ReconnectMessage = "---RegisterReconnectMgr---";
 		public static readonly Regex CardAlreadyInCacheRegex =
 			new Regex(@"somehow\ the\ card\ def\ for\ (?<id>(\w+_\w+))\ was\ already\ in\ the\ cache...");
 
@@ -26,7 +27,6 @@ namespace Hearthstone_Deck_Tracker.LogReader
 		public static readonly Regex GameModeRegex = new Regex(@"prevMode=(?<prev>(\w+)).*currMode=(?<curr>(\w+))");
 		public static readonly Regex ConnectionRegex = new Regex(@"ConnectAPI\.GotoGameServer -- address=(?<address>(.*)), game=(?<game>(.*)), client=(?<client>(.*)), spectateKey=(?<spectateKey>(.*))");
 		public static readonly Regex LegendRankRegex = new Regex(@"legend rank (?<rank>(\d+))");
-		public static readonly Regex DisconnectRegex = new Regex(@"Gameplay\.Awake\(\) - DISCONNECTED");
 
 		public static LogReaderInfo PowerLogReaderInfo => new LogReaderInfo
 		{
