@@ -24,6 +24,7 @@ using Hearthstone_Deck_Tracker.FlyoutControls;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Utility;
 using Hearthstone_Deck_Tracker.HsReplay;
+using Hearthstone_Deck_Tracker.HsReplay.API;
 using Hearthstone_Deck_Tracker.Replay;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility.Extensions;
@@ -756,17 +757,22 @@ namespace Hearthstone_Deck_Tracker
 				await helper.GenerateHsReplay();
 			if(!game.HsReplay?.Uploaded ?? true)
 			{
-				var id = await HsReplayUploader.UploadXml(helper.HsReplay);
-				game.HsReplay = new HsReplayInfo(id);
-				if(DefaultDeckStats.Instance.DeckStats.Any(x => x.DeckId == game.DeckId))
-					DefaultDeckStats.Save();
-				else
-					DeckStatsList.Save();
+				var result = await HsReplayUploader.UploadXml(helper.HsReplay);
+				if(result.Success)
+				{
+					game.HsReplay = new HsReplayInfo(result.ReplayId);
+					if(DefaultDeckStats.Instance.DeckStats.Any(x => x.DeckId == game.DeckId))
+						DefaultDeckStats.Save();
+					else
+						DeckStatsList.Save();
+				}
 			}
 			if(game.HsReplay?.Uploaded ?? false)
 				TryOpenUrl("http://hsreplayarchive.org/joust/replay/" + game.HsReplay?.Id);
-			else if (game.HasReplayFile)
+			else if(game.HasReplayFile)
 				ReplayReader.LaunchReplayViewer(game.ReplayFile);
+			else
+				return false;
 			return true;
 		}
 	

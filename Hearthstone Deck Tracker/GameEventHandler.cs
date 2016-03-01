@@ -14,6 +14,8 @@ using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Hearthstone.Entities;
 using Hearthstone_Deck_Tracker.HearthStats.API;
 using Hearthstone_Deck_Tracker.HsReplay;
+using Hearthstone_Deck_Tracker.HsReplay.API;
+using Hearthstone_Deck_Tracker.HsReplay.Converter;
 using Hearthstone_Deck_Tracker.LogReader;
 using Hearthstone_Deck_Tracker.Replay;
 using Hearthstone_Deck_Tracker.Stats;
@@ -199,20 +201,23 @@ namespace Hearthstone_Deck_Tracker
 
 		private async void UploadHsReplay(List<string> powerLog, GameStats stats, GameMetaData metaData, bool includeDeck)
 		{
-			var file = await HsReplayGenerator.Generate(powerLog, stats, metaData, includeDeck);
+			var file = await HsReplayConverter.Convert(powerLog, stats, metaData, includeDeck);
 			if(file == null)
 			{
 				stats.HsReplay = new HsReplayInfo(HsReplayInfo.InvalidId);
 				DeckStatsList.Save();
 				return;
 			}
-			var replayId = await HsReplayUploader.UploadXmlFromFile(file);
-			stats.HsReplay = new HsReplayInfo(replayId);
-			DeckStatsList.Save();
-			DefaultDeckStats.Save();
-			var rh = new ReplayHelper(stats);
-			if(rh.ReplayExists)
-				rh.StoreHsReplay(file);
+			var result = await HsReplayUploader.UploadXmlFromFile(file);
+			if(result.Success)
+			{
+				stats.HsReplay = new HsReplayInfo(result.ReplayId);
+				DeckStatsList.Save();
+				DefaultDeckStats.Save();
+				var rh = new ReplayHelper(stats);
+				if(rh.ReplayExists)
+					rh.StoreHsReplay(file);
+			}
 		}
 
 		public void HandleConcede()

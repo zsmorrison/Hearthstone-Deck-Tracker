@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Hearthstone_Deck_Tracker.HsReplay
 {
-	public class HsReplayConstants
+	public class Constants
 	{
 		private const string BaseUrl = "http://hsreplay.net";
 		private const string UploadApi = "/api/v1/replay/upload";

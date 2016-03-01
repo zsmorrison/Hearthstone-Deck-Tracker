@@ -1,33 +1,40 @@
 ﻿#region
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using HearthDb.Enums;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.Stats;
+using Hearthstone_Deck_Tracker.Utility.Logging;
 
 #endregion
 
-namespace Hearthstone_Deck_Tracker.HsReplay
+namespace Hearthstone_Deck_Tracker.HsReplay.Converter
 {
 	internal class XmlHelper
 	{
-		internal static void AddData(string xmlFile, GameMetaData gameMetaData, GameStats stats, bool includeDeck)
+		public static void AddData(string xmlFile, GameMetaData gameMetaData, GameStats stats, bool includeDeck)
 		{
-			var xml = XDocument.Load(xmlFile);
-			var hsReplay = xml.Elements().FirstOrDefault(x => x.Name == XmlElements.HsReplay);
-			if(hsReplay == null)
-				return;
-			hsReplay.SetAttributeValue(XmlAttributes.Build, stats.HearthstoneBuild ?? BuildDates.GetByDate(stats.StartTime));
-			var games = hsReplay.Elements().Where(x => x.Name == XmlElements.Game);
-			foreach(var game in games)
+			try
 			{
-				AddGameAttributes(game, gameMetaData, stats);
-				AddPlayerAttributes(game, gameMetaData, stats, includeDeck);
+				var xml = XDocument.Load(xmlFile);
+				var hsReplay = xml.Elements().FirstOrDefault(x => x.Name == XmlElements.HsReplay);
+				if(hsReplay == null)
+					return;
+				hsReplay.SetAttributeValue(XmlAttributes.Build, stats.HearthstoneBuild ?? BuildDates.GetByDate(stats.StartTime));
+				var games = hsReplay.Elements().Where(x => x.Name == XmlElements.Game);
+				foreach(var game in games)
+				{
+					AddGameAttributes(game, gameMetaData, stats);
+					AddPlayerAttributes(game, gameMetaData, stats, includeDeck);
+				}
+				xml.Save(xmlFile);
 			}
-			xml.Save(xmlFile);
+			catch(Exception e)
+			{
+				Log.Error(e);
+			}
 		}
 
 		private static void AddPlayerAttributes(XElement game, GameMetaData gameMetaData, GameStats stats, bool includeDeck)

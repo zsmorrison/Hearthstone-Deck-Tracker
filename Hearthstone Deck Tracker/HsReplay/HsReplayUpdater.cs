@@ -5,7 +5,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Threading.Tasks;
 using Hearthstone_Deck_Tracker.Utility.Logging;
-using static Hearthstone_Deck_Tracker.HsReplay.HsReplayConstants;
+using static Hearthstone_Deck_Tracker.HsReplay.Constants;
 using Hearthstone_Deck_Tracker.Utility.Extensions;
 
 #endregion

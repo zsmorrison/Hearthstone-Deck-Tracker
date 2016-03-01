@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using Hearthstone_Deck_Tracker.HsReplay;
+using Hearthstone_Deck_Tracker.HsReplay.Converter;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 
@@ -77,7 +78,7 @@ namespace Hearthstone_Deck_Tracker.Replay
 			if(!HasRawLogFile)
 				return false;
 			var log = RawLog.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries).ToList();
-			var output = await HsReplayGenerator.Generate(log, _game, null);
+			var output = await HsReplayConverter.Convert(log, _game, null);
 			if(output == null)
 				return false;
 			StoreHsReplay(output);
