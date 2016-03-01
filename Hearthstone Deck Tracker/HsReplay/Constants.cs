@@ -6,9 +6,9 @@ using System.IO;
 
 namespace Hearthstone_Deck_Tracker.HsReplay
 {
-	public class Constants
+	internal class Constants
 	{
-		private const string BaseUrl = "http://hsreplay.net";
+		public const string BaseUrl = "http://hsreplay.net";
 		private const string UploadApi = "/api/v1/replay/upload";
 		public const string DownloadUrl = "https://github.com/Epix37/HSReplayFreezer/releases/download/{0}/hsreplay-{0}.zip";
 		public const string ZipFile = "hsreplay-{0}.zip";

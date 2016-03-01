@@ -768,7 +768,7 @@ namespace Hearthstone_Deck_Tracker
 				}
 			}
 			if(game.HsReplay?.Uploaded ?? false)
-				TryOpenUrl("http://hsreplayarchive.org/joust/replay/" + game.HsReplay?.Id);
+				TryOpenUrl(game.HsReplay?.Url);
 			else if(game.HasReplayFile)
 				ReplayReader.LaunchReplayViewer(game.ReplayFile);
 			else

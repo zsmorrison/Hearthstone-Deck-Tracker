@@ -25,5 +25,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 		public bool Converted => !string.IsNullOrEmpty(Id);
 
 		public bool Uploaded => Converted && Id != InvalidId;
+
+		public string Url => $"{Constants.BaseUrl}/joust/replay/{Id}";
 	}
 }
