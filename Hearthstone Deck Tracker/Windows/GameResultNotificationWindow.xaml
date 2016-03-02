@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         ShowInTaskbar="False"
         WindowStyle="None" ResizeMode="NoResize" AllowsTransparency="True" Topmost="True"
-        Height="34" Width="250" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}">
+        Height="75" Width="250" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}">
     <Window.Resources>
         <Storyboard x:Key="StoryboardFadeOut" Completed="StoryboardFadeOut_OnCompleted">
             <DoubleAnimation Duration="0:0:0.4" From="1" To="0" Storyboard.TargetProperty="Opacity"/>
@@ -19,19 +19,31 @@
         </EventTrigger>
     </Window.Triggers>
     <DockPanel>
-        <DockPanel Name="PanelSummary" DockPanel.Dock="Top" Background="{DynamicResource AccentColorBrush}" Height="32">
+        <Border Name="BorderReplay" DockPanel.Dock="Top" Background="{DynamicResource AccentColorBrush}" Height="40" Margin="0,0,0,1" 
+                MouseEnter="BorderReplay_OnMouseEnter" MouseLeave="BorderReplay_OnMouseLeave" MouseLeftButtonUp="BorderReplay_OnMouseLeftButtonUp">
+            <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Rectangle Width="20" Height="24" DockPanel.Dock="Left">
+                    <Rectangle.Fill>
+                        <VisualBrush Visual="{DynamicResource appbar_chevron_right_white}">
+                        </VisualBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock Text="on www.hsreplay.net" DockPanel.Dock="Bottom" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,-5,0,0" FontSize="12"/>
+                <TextBlock Text="WATCH THE REPLAY!" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0" FontSize="15"/>
+            </DockPanel>
+        </Border>
+        <DockPanel Name="PanelSummary" DockPanel.Dock="Top" Background="{DynamicResource AccentColorBrush}" Height="32" MouseLeftButtonUp="PanelSummary_MouseLeftButtonUp">
             <Rectangle DockPanel.Dock="Right" Width="18" Height="18" Opacity="0.5" Margin="0,0,8,0">
                 <Rectangle.Fill>
                     <VisualBrush Visual="{StaticResource appbar_settings}"/>
                 </Rectangle.Fill>
             </Rectangle>
             <StackPanel HorizontalAlignment="Center" Height="32" Orientation="Horizontal">
+                <TextBlock Text="{Binding Mode, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='[{0}]'}"  FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                <TextBlock Text="{Binding Result, RelativeSource={RelativeSource AncestorType=Window}}" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0"/>
                 <Image Source="{Binding PlayerClassImage, RelativeSource={RelativeSource AncestorType=Window}}" RenderOptions.BitmapScalingMode="Fant" Margin="2"/>
                 <TextBlock Text="vs" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" Margin="5,0"/>
                 <Image Source="{Binding Opponent.ClassImage, RelativeSource={RelativeSource AncestorType=Window}}" RenderOptions.BitmapScalingMode="Fant" Margin="2"/>
-                <TextBlock Text="-" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" Margin="5,0"/>
-                <TextBlock Text="{Binding Result, RelativeSource={RelativeSource AncestorType=Window}}" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                <TextBlock Text="{Binding Mode, RelativeSource={RelativeSource AncestorType=Window}, StringFormat='({0})'}"  FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0"/>
             </StackPanel>
             </DockPanel>
         <DockPanel Name="PanelDetailHeader" DockPanel.Dock="Top" Background="{DynamicResource AccentColorBrush}" Height="32" Visibility="Collapsed">

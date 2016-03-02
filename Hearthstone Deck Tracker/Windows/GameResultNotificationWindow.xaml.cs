@@ -21,7 +21,7 @@ namespace Hearthstone_Deck_Tracker.Windows
 {
 	public partial class GameResultNotificationWindow
 	{
-		private const int ExpandedHeight = 100;
+		private const int ExpandedHeight = 141;
 		private const int ExpandedWidth = 350;
 		private const double FadeInDuration = 0.4;
 		private const int FadeOutSpeedup = 2;
@@ -110,8 +110,9 @@ namespace Hearthstone_Deck_Tracker.Windows
 				await Task.Delay(100);
 				if(!IsMouseOver)
 					continue;
-				Expand();
 				_startUpTime = DateTime.UtcNow - TimeSpan.FromSeconds(FadeOutSpeedup);
+				if(BorderReplay.IsMouseOver)
+					continue;
 				CloseAsync();
 				return;
 			}
@@ -188,6 +189,26 @@ namespace Hearthstone_Deck_Tracker.Windows
 			protected bool Equals(HeroClassWrapper other) => string.Equals(Class, other.Class);
 
 			public override int GetHashCode() => Class?.GetHashCode() ?? 0;
+		}
+
+		private void PanelSummary_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) => Expand();
+
+		private void BorderReplay_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			Helper.ShowReplay(_game).Forget();
+			((Storyboard)FindResource("StoryboardFadeOut")).Begin(this);
+		}
+
+		private void BorderReplay_OnMouseEnter(object sender, MouseEventArgs e)
+		{
+			if(Cursor != Cursors.Wait)
+				Cursor = Cursors.Hand;
+		}
+
+		private void BorderReplay_OnMouseLeave(object sender, MouseEventArgs e)
+		{
+			if(Cursor != Cursors.Wait)
+				Cursor = Cursors.Arrow;
 		}
 	}
 }
