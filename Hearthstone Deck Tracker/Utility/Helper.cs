@@ -747,34 +747,5 @@ namespace Hearthstone_Deck_Tracker
 					yield return childOfChild;
 			}
 		}
-
-		public static async Task<bool> ShowReplay(GameStats game)
-		{
-			if (game == null)
-				return false;
-			var helper = new ReplayHelper(game);
-			if(!game.HsReplay?.Converted ?? true)
-				await helper.GenerateHsReplay();
-			if(!game.HsReplay?.Uploaded ?? true)
-			{
-				var result = await HsReplayUploader.UploadXml(helper.HsReplay);
-				if(result.Success)
-				{
-					game.HsReplay = new HsReplayInfo(result.ReplayId);
-					if(DefaultDeckStats.Instance.DeckStats.Any(x => x.DeckId == game.DeckId))
-						DefaultDeckStats.Save();
-					else
-						DeckStatsList.Save();
-				}
-			}
-			if(game.HsReplay?.Uploaded ?? false)
-				TryOpenUrl(game.HsReplay?.Url);
-			else if(game.HasReplayFile)
-				ReplayReader.LaunchReplayViewer(game.ReplayFile);
-			else
-				return false;
-			return true;
-		}
-	
 	}
 }

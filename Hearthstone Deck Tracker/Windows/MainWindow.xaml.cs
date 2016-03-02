@@ -944,7 +944,7 @@ namespace Hearthstone_Deck_Tracker.Windows
 			var game = (e.OriginalSource as MenuItem)?.DataContext as GameStats;
 			if(game == null)
 				return;
-			await Helper.ShowReplay(game);
+			await HsReplayManager.ShowReplay(game);
 		}
 	}
 }

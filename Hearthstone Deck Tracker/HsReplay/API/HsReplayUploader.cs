@@ -14,11 +14,13 @@ namespace Hearthstone_Deck_Tracker.HsReplay.API
 	{
 		public static async Task<UploadResult> UploadXml(string xml)
 		{
+			Log.Info("Uploading...");
 			try
 			{
 				var response = await Web.PostAsync(Constants.UploadUrl, xml);
 				var location = response.Headers["Location"];
 				var id = location.Split('/').Last();
+				Log.Info("Success!");
 				return UploadResult.Successful(id);
 			}
 			catch(Exception e)

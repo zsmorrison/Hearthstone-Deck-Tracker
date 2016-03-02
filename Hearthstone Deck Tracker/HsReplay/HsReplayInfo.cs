@@ -8,8 +8,6 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	public class HsReplayInfo
 	{
-		public const string InvalidId = "INVALID";
-
 		public HsReplayInfo()
 		{
 			
@@ -22,9 +20,7 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 
 		public string Id { get; set; }
 
-		public bool Converted => !string.IsNullOrEmpty(Id);
-
-		public bool Uploaded => Converted && Id != InvalidId;
+		public bool Uploaded => !string.IsNullOrEmpty(Id);
 
 		public string Url => $"{Constants.BaseUrl}/joust/replay/{Id}";
 	}

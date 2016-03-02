@@ -21,6 +21,7 @@ using Hearthstone_Deck_Tracker.Replay;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Stats.CompiledStats;
 using Hearthstone_Deck_Tracker.Utility;
+using Hearthstone_Deck_Tracker.Utility.Extensions;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using Hearthstone_Deck_Tracker.Windows;
 using static Hearthstone_Deck_Tracker.Enums.GameMode;
@@ -158,7 +159,7 @@ namespace Hearthstone_Deck_Tracker
 				if(Config.Instance.RecordReplays && _game.Entities.Count > 0 && !_game.SavedReplay && _game.CurrentGameStats.ReplayFile == null)
 					_game.CurrentGameStats.ReplayFile = ReplayMaker.SaveToDisk(powerLog);
 				if(Config.Instance.HsReplayAutoUpload)
-					UploadHsReplay(powerLog, _game.CurrentGameStats, _game.MetaData, !_game.NoMatchingDeck);
+					HsReplayManager.ProcessPowerLog(powerLog, _game.CurrentGameStats, _game.MetaData, !_game.NoMatchingDeck).Forget();
 			}
 
 			SaveAndUpdateStats();
@@ -197,27 +198,6 @@ namespace Hearthstone_Deck_Tracker
 			if(_game.CurrentGameMode == Spectator)
 				SetGameMode(None);
 			GameEvents.OnInMenu.Execute();
-		}
-
-		private async void UploadHsReplay(List<string> powerLog, GameStats stats, GameMetaData metaData, bool includeDeck)
-		{
-			var file = await HsReplayConverter.Convert(powerLog, stats, metaData, includeDeck);
-			if(file == null)
-			{
-				stats.HsReplay = new HsReplayInfo(HsReplayInfo.InvalidId);
-				DeckStatsList.Save();
-				return;
-			}
-			var result = await HsReplayUploader.UploadXmlFromFile(file);
-			if(result.Success)
-			{
-				stats.HsReplay = new HsReplayInfo(result.ReplayId);
-				DeckStatsList.Save();
-				DefaultDeckStats.Save();
-				var rh = new ReplayHelper(stats);
-				if(rh.ReplayExists)
-					rh.StoreHsReplay(file);
-			}
 		}
 
 		public void HandleConcede()

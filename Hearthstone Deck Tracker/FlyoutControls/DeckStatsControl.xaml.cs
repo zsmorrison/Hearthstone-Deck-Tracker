@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.HearthStats.API;
+using Hearthstone_Deck_Tracker.HsReplay;
 using Hearthstone_Deck_Tracker.Replay;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility;
@@ -345,7 +346,7 @@ namespace Hearthstone_Deck_Tracker
 		{
 			if(selected == null)
 				return;
-			if(Keyboard.IsKeyDown(Key.LeftCtrl) || !(await Helper.ShowReplay(selected)))
+			if(Keyboard.IsKeyDown(Key.LeftCtrl) || !(await HsReplayManager.ShowReplay(selected)))
 			{
 				if (Config.Instance.StatsInWindow)
 				{

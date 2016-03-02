@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using Hearthstone_Deck_Tracker.Annotations;
 using Hearthstone_Deck_Tracker.Enums;
 using Hearthstone_Deck_Tracker.HearthStats.API;
+using Hearthstone_Deck_Tracker.HsReplay;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility;
 using Hearthstone_Deck_Tracker.Utility.Extensions;
@@ -195,7 +196,7 @@ namespace Hearthstone_Deck_Tracker.Windows
 
 		private void BorderReplay_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			Helper.ShowReplay(_game).Forget();
+			HsReplayManager.ShowReplay(_game).Forget();
 			((Storyboard)FindResource("StoryboardFadeOut")).Begin(this);
 		}
 
