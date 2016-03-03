@@ -1,9 +1,10 @@
 ﻿#region
 
+using System;
 using System.IO;
 using System.IO.Compression;
-using System.Net;
 using System.Threading.Tasks;
+using Hearthstone_Deck_Tracker.Utility;
 using Hearthstone_Deck_Tracker.Utility.Logging;
 using static Hearthstone_Deck_Tracker.HsReplay.Constants;
 using Hearthstone_Deck_Tracker.Utility.Extensions;
@@ -14,26 +15,71 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 {
 	internal class HsReplayUpdater
 	{
-		internal static bool CheckForUpdate()
+		private static Version GetCurrentVersion()
 		{
-			//TODO
-			return false;
+			var version = new Version();
+			if(!File.Exists(VersionFilePath))
+				return version;
+			try
+			{
+				using(var sr = new StreamReader(VersionFilePath))
+					Version.TryParse(sr.ReadToEnd(), out version);
+			}
+			catch(Exception e)
+			{
+				Log.Error(e);
+			}
+			return version;
 		}
 
+		private static bool _updating;
 		internal static async Task Update()
 		{
-			var version = "0.1";
-			var zipPath = string.Format(ZipFilePath, version);
-			Log.Info($"Downloading hsreplay converter version {version}...");
-			using(var wc = new WebClient())
-				await wc.DownloadFileTaskAsync(string.Format(DownloadUrl, version), zipPath);
-			Log.Info("Finished downloading. Unpacking...");
-			using(var fs = new FileInfo(zipPath).OpenRead())
+			if(_updating)
 			{
-				var archive = new ZipArchive(fs, ZipArchiveMode.Read);
-				archive.ExtractToDirectory(HsReplayPath, true);
+				while(_updating)
+					Task.Delay(500);
+				return;
 			}
-			File.Delete(zipPath);
+			_updating = true;
+			var currentVersion = GetCurrentVersion();
+			Log.Info($"[{currentVersion}] Checking for updates...");
+			var release = await GitHub.CheckForUpdate("Epix37", "HSReplayFreezer", currentVersion);
+			if(release == null)
+			{
+				Log.Info("Up to date.");
+				return;
+			}
+			Log.Info($"Found new update: {release.Tag}, downloading...");
+			var filePath = await GitHub.DownloadRelease(release, HsReplayPath);
+			if(filePath == null)
+			{
+				Log.Info("No new update found.");
+				return;
+			}
+			Log.Info("Finished downloading. Unpacking...");
+			try
+			{
+				using(var fs = new FileInfo(filePath).OpenRead())
+				{
+					var archive = new ZipArchive(fs, ZipArchiveMode.Read);
+					archive.ExtractToDirectory(HsReplayPath, true);
+				}
+			}
+			catch(Exception e)
+			{
+				Log.Error(e);
+			}
+			try
+			{
+				File.Delete(filePath);
+				Log.Info("All done.");
+			}
+			catch(Exception e)
+			{
+				Log.Error(e);
+			}
+			_updating = false;
 		}
 	}
 }

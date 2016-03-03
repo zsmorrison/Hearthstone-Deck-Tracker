@@ -324,6 +324,7 @@
     <Compile Include="Utility\Extensions\TaskExtensions.cs" />
     <Compile Include="Utility\Extensions\VersionExtensions.cs" />
     <Compile Include="Utility\Extensions\ZipArchiveExtensions.cs" />
+    <Compile Include="Utility\GitHub.cs" />
     <Compile Include="Utility\Logging\Log.cs" />
     <Compile Include="Utility\Logging\LogType.cs" />
     <Compile Include="Utility\MouseActions.cs" />

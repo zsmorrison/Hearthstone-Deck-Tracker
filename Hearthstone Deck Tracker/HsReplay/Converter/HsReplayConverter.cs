@@ -19,9 +19,12 @@ namespace Hearthstone_Deck_Tracker.HsReplay.Converter
 		public static async Task<string> Convert(List<string> log, GameStats stats, GameMetaData gameMetaData, bool includeDeck = false)
 		{
 			Log.Info($"Converting hsreplay, game={{{stats}}}");
-			var setup = await Setup();
-			if(!setup)
-				return null;
+			if(!File.Exists(HsReplayExe))
+			{
+				var setup = await HsReplayManager.Setup();
+				if(!setup)
+					return null;
+			}
 			var result = LogValidator.Validate(log);
 			if(!result.Valid)
 				return null;
@@ -56,25 +59,6 @@ namespace Hearthstone_Deck_Tracker.HsReplay.Converter
 				Log.Error(e);
 			}
 			return HsReplayOutput;
-		}
-
-		private static async Task<bool> Setup()
-		{
-			try
-			{
-				Directory.CreateDirectory(HsReplayPath);
-				Directory.CreateDirectory(TmpDirPath);
-				if(!File.Exists(HsReplayExe) || HsReplayUpdater.CheckForUpdate())
-					await HsReplayUpdater.Update();
-				if(!File.Exists(Msvcr100DllPath))
-					File.Copy(Msvcr100DllHearthstonePath, Msvcr100DllPath);
-				return true;
-			}
-			catch(Exception e)
-			{
-				Log.Error(e);
-				return false;
-			}
 		}
 
 		private static async Task<bool> RunExeAsync(DateTime? time, bool usePowerTaskList)

@@ -1,7 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Hearthstone_Deck_Tracker.Hearthstone;
 using Hearthstone_Deck_Tracker.HsReplay.API;
@@ -9,6 +11,9 @@ using Hearthstone_Deck_Tracker.HsReplay.Converter;
 using Hearthstone_Deck_Tracker.Replay;
 using Hearthstone_Deck_Tracker.Stats;
 using Hearthstone_Deck_Tracker.Utility.Logging;
+using static Hearthstone_Deck_Tracker.HsReplay.Constants;
+
+#endregion
 
 namespace Hearthstone_Deck_Tracker.HsReplay
 {
@@ -65,6 +70,24 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 			else
 				return false;
 			return true;
+		}
+
+		public static async Task<bool> Setup()
+		{
+			try
+			{
+				Directory.CreateDirectory(HsReplayPath);
+				Directory.CreateDirectory(TmpDirPath);
+				await HsReplayUpdater.Update();
+				if(!File.Exists(Msvcr100DllPath))
+					File.Copy(Msvcr100DllHearthstonePath, Msvcr100DllPath);
+				return true;
+			}
+			catch(Exception e)
+			{
+				Log.Error(e);
+				return false;
+			}
 		}
 	}
 }

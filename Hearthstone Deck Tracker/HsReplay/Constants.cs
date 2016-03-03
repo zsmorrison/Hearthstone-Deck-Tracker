@@ -10,13 +10,11 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 	{
 		public const string BaseUrl = "http://hsreplay.net";
 		private const string UploadApi = "/api/v1/replay/upload";
-		public const string DownloadUrl = "https://github.com/Epix37/HSReplayFreezer/releases/download/{0}/hsreplay-{0}.zip";
-		public const string ZipFile = "hsreplay-{0}.zip";
 		private const string Msvcr100Dll = "msvcr100.dll";
 		private const string HsReplayXmlFile = "hslog.xml";
 		private const string TmpPowerLogFile = "tmp.log";
 		private const string HsReplayDir = "HsReplay";
-		private const string HsReplayExeFilename = "convert.exe";
+		private const string HsReplayExeFilename = "hsreplayconverter.exe";
 		private const string TmpDir = "temp";
 		private const string VersionFile = "version";
 		private const string BuildDatesFile = "builddates.xml";
@@ -31,6 +29,5 @@ namespace Hearthstone_Deck_Tracker.HsReplay
 		public static string HsReplayExe => Path.Combine(HsReplayPath, HsReplayExeFilename);
 		public static string HsReplayOutput => Path.Combine(TmpDirPath, HsReplayXmlFile);
 		public static string VersionFilePath => Path.Combine(HsReplayPath, VersionFile);
-		public static string ZipFilePath => Path.Combine(HsReplayPath, ZipFile);
 	}
 }
